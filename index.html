@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gift card email · Debenhams</title>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0F0F0F;--panel:#161616;--line:#262626;--ink:#F2F2F2;--ink-2:#9A9A9A;--ink-3:#6B6B6B;--aqua:#7BE7D8;--teal:#00787D}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:300 14px/20px Geologica,ui-sans-serif,system-ui,sans-serif}
+  a{color:var(--aqua)}
+  .app{display:grid;grid-template-columns:300px 1fr;height:100vh}
+  aside{border-right:1px solid var(--line);background:var(--panel);padding:24px 20px;overflow:auto;display:flex;flex-direction:column;gap:24px}
+  h1{margin:0;font-size:16px;line-height:22px;font-weight:600}
+  .eyebrow{font-size:11px;line-height:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin:0 0 8px}
+  .sub{color:var(--ink-2);margin:4px 0 0}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{border:1px solid var(--line);background:transparent;color:var(--ink-2);border-radius:999px;padding:6px 12px;font:400 13px/16px Geologica,sans-serif;cursor:pointer}
+  .chip:hover{border-color:#3a3a3a;color:var(--ink)}
+  .chip.on{background:var(--aqua);border-color:var(--aqua);color:#000;font-weight:600}
+  label.f{display:block;margin:0 0 10px}
+  label.f span{display:block;font-size:11px;line-height:16px;color:var(--ink-3);margin-bottom:4px}
+  label.f input,label.f textarea{width:100%;background:#0F0F0F;border:1px solid var(--line);color:var(--ink);border-radius:4px;padding:8px 10px;font:300 13px/18px Geologica,sans-serif}
+  label.f textarea{resize:vertical;min-height:56px}
+  .btns{display:flex;flex-direction:column;gap:8px}
+  .bd{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 16px;border-radius:4px;border:1px solid transparent;font:600 13px/16px Geologica,sans-serif;cursor:pointer;text-decoration:none;letter-spacing:.02em}
+  .bd.pri{background:var(--aqua);color:#000;text-transform:uppercase}
+  .bd.sec{background:transparent;color:var(--ink);border-color:#3a3a3a}
+  .bd.sec:hover{border-color:var(--aqua)}
+  .note{color:var(--ink-3);font-size:12px;line-height:18px;margin:0}
+  main{display:flex;flex-direction:column;overflow:hidden}
+  .bar{display:flex;align-items:center;gap:16px;padding:12px 24px;border-bottom:1px solid var(--line);color:var(--ink-2);font-size:12px}
+  .bar b{color:var(--ink);font-weight:600}
+  .bar .sp{flex:1}
+  .stage{flex:1;overflow:auto;padding:32px;display:flex;justify-content:center;align-items:flex-start;background:
+    radial-gradient(circle at 1px 1px,#1c1c1c 1px,transparent 1px) 0 0/24px 24px,var(--bg)}
+  .device{background:#fff;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px #2a2a2a;overflow:hidden;transition:width .2s}
+  .device iframe{display:block;width:100%;height:1600px;border:0;background:#fff}
+  .device.m{width:375px}.device.d{width:600px}.device.w{width:760px}
+  .tok{display:grid;grid-template-columns:14px 1fr auto;gap:6px 10px;align-items:center;font-size:12px;color:var(--ink-2)}
+  .tok i{width:14px;height:14px;border-radius:3px;border:1px solid #333;display:block}
+  .tok code{color:var(--ink-3);font-size:11px}
+  @media (max-width:900px){.app{grid-template-columns:1fr;height:auto}aside{border-right:0;border-bottom:1px solid var(--line)}main{height:auto}.stage{padding:16px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div>
+      <h1>Gift card email</h1>
+      <p class="sub">Debenhams · transactional · v2 redesign</p>
+    </div>
+
+    <div>
+      <p class="eyebrow">View</p>
+      <div class="chips" id="view">
+        <button class="chip on" data-v="new">New</button>
+        <button class="chip" data-v="old">Original (Nov 2025)</button>
+      </div>
+    </div>
+
+    <div>
+      <p class="eyebrow">Scenario</p>
+      <div class="chips" id="scenario">
+        <button class="chip on" data-s="refund">Refund to gift card</button>
+        <button class="chip" data-s="gift">Sent by someone</button>
+      </div>
+    </div>
+
+    <div>
+      <p class="eyebrow">Device</p>
+      <div class="chips" id="device">
+        <button class="chip" data-d="m">Mobile 375</button>
+        <button class="chip on" data-d="d">Email 600</button>
+        <button class="chip" data-d="w">Wide 760</button>
+      </div>
+    </div>
+
+    <div>
+      <p class="eyebrow">Merge fields</p>
+      <label class="f"><span>recipient_name</span><input data-k="recipient_name" value="Adam"></label>
+      <label class="f"><span>amount</span><input data-k="amount" value="£40.25"></label>
+      <label class="f"><span>card_number</span><input data-k="card_number" value="VLBX-PTEB-D3X8-JYWD"></label>
+      <label class="f"><span>pin</span><input data-k="pin" value="EN5V"></label>
+      <label class="f"><span>expiry_date</span><input data-k="expiry_date" value="8 Feb 2027"></label>
+      <label class="f" data-only="refund"><span>order_ref</span><input data-k="order_ref" value="DUX058466887"></label>
+      <label class="f" data-only="gift"><span>sender_name</span><input data-k="sender_name" value="Sarah"></label>
+      <label class="f" data-only="gift"><span>message</span><textarea data-k="message">Happy birthday! Treat yourself to something you actually want this year. Love you loads.</textarea></label>
+    </div>
+
+    <div class="btns">
+      <a class="bd pri" href="template/giftcard.html" target="_blank">Open template</a>
+      <button class="bd sec" id="copy">Copy rendered HTML</button>
+      <a class="bd sec" href="original/giftcard-original.html" target="_blank">Open original HTML</a>
+      <a class="bd sec" href="https://github.com/jakerayner96/debenhams-giftcard-email" target="_blank">Repo</a>
+    </div>
+
+    <div>
+      <p class="eyebrow">Tokens in play</p>
+      <div class="tok">
+        <i style="background:#7BE7D8"></i><span>surface/action · card</span><code>#7BE7D8</code>
+        <i style="background:#00787D"></i><span>text/link</span><code>#00787D</code>
+        <i style="background:#E8F4F2"></i><span>brand-neutral · message</span><code>#E8F4F2</code>
+        <i style="background:#FAFAFA"></i><span>surface/sunken · details</span><code>#FAFAFA</code>
+        <i style="background:#E7E7E7"></i><span>border/subtle</span><code>#E7E7E7</code>
+        <i style="background:#6B6B6B"></i><span>text/secondary (AA floor)</span><code>#6B6B6B</code>
+        <i style="background:#0F0F0F"></i><span>text/primary</span><code>#0F0F0F</code>
+      </div>
+      <p class="note" style="margin-top:12px">Geologica 300 / 600 · buttons 16/24 SemiBold, 4px · panels 8px · card 16px. Web font falls back to Arial in Gmail/Outlook.</p>
+    </div>
+  </aside>
+
+  <main>
+    <div class="bar"><b id="title">New · Refund · 600px</b><span class="sp"></span><span id="status">loading template…</span></div>
+    <div class="stage"><div class="device d" id="device-frame"><iframe id="frame" title="Email preview"></iframe></div></div>
+  </main>
+</div>
+
+<script>
+(function(){
+  const state={view:'new',scenario:'refund',device:'d'};
+  let tpl='';
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const frame=$('#frame'), dev=$('#device-frame'), status=$('#status'), title=$('#title');
+  const base=location.href.replace(/[^/]*$/,'');
+
+  function data(){
+    const d={shop_url:'https://www.debenhams.com/',balance_url:'https://www.debenhams.com/giftcard/balance',account_url:'https://www.debenhams.com/account/giftcards',terms_url:'https://www.debenhams.com/help/gift-cards',privacy_url:'https://www.debenhams.com/privacy'};
+    $$('[data-k]').forEach(el=>d[el.dataset.k]=el.value);
+    d.is_refund=state.scenario==='refund';
+    return d;
+  }
+  // Mailgun-style handlebars subset: {{#if k}}…{{else}}…{{/if}} (nested ok, innermost first) + {{k}}
+  function render(t,d){
+    const re=/\{\{#if (\w+)\}\}((?:(?!\{\{#if)[\s\S])*?)(?:\{\{else\}\}((?:(?!\{\{#if)[\s\S])*?))?\{\{\/if\}\}/g;
+    let out=t,n=0; while(re.test(out)&&n++<20){re.lastIndex=0;out=out.replace(re,(m,k,a,b)=>d[k]?a:(b||''));}
+    return out.replace(/\{\{(\w+)\}\}/g,(m,k)=>d[k]==null?'':String(d[k]));
+  }
+  function html(){ return render(tpl,data()).split('https://jakerayner96.github.io/debenhams-giftcard-email/').join(base); }
+  function paint(){
+    $$('[data-only]').forEach(el=>el.style.display=el.dataset.only===state.scenario?'':'none');
+    dev.className='device '+state.device;
+    title.textContent=(state.view==='new'?'New':'Original')+' · '+(state.scenario==='refund'?'Refund':'Gift')+' · '+({m:'375px',d:'600px',w:'760px'})[state.device];
+    if(state.view==='old'){frame.removeAttribute('srcdoc');frame.src='original/giftcard-original.html';status.textContent='Original template · images from the live CDN · card number and PIN redacted';return;}
+    frame.removeAttribute('src');frame.srcdoc=html();status.textContent='Rendered from template/giftcard.html with the merge fields on the left';
+  }
+  function fit(){try{const h=frame.contentDocument&&frame.contentDocument.documentElement.scrollHeight;if(h)frame.style.height=Math.max(900,h+2)+'px';}catch(e){}}
+  frame.addEventListener('load',()=>{fit();setTimeout(fit,400);setTimeout(fit,1200);});
+  $('#view').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;state.view=b.dataset.v;$$('#view .chip').forEach(c=>c.classList.toggle('on',c===b));paint();});
+  $('#scenario').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;state.scenario=b.dataset.s;$$('#scenario .chip').forEach(c=>c.classList.toggle('on',c===b));paint();});
+  $('#device').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;state.device=b.dataset.d;$$('#device .chip').forEach(c=>c.classList.toggle('on',c===b));paint();});
+  $$('[data-k]').forEach(el=>el.addEventListener('input',()=>{if(state.view==='new')paint();}));
+  $('#copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(render(tpl,data()));status.textContent='Rendered HTML copied (absolute Pages image URLs)';}catch(e){status.textContent='Copy blocked — open the template and copy from source';}});
+  fetch('template/giftcard.html').then(r=>r.text()).then(t=>{tpl=t;paint();}).catch(()=>{status.textContent='Serve over HTTP (python3 -m http.server 3000) — fetch of the template failed on file://';});
+})();
+</script>
+</body>
+</html>
