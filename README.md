@@ -10,13 +10,13 @@ Redesign of the transactional "You've been sent a gift card!" email (sender `gif
 |---|---|
 | `index.html` | Preview shell — New vs Original, Refund vs Gift, 375 / 600 / 760, editable merge fields, copy rendered HTML. Serve over HTTP (`python3 -m http.server 3000`). |
 | `template/giftcard.html` | The email. Table layout, inline styles, 600px, MSO guards, Mailgun handlebars merge fields (`{{amount}}`, `{{#if is_refund}}…{{else}}…{{/if}}`). |
-| `assets/logos/` | 2× PNGs rendered from the design-system brand SVGs (`debenhamsgroup.design/assets/brands`). Fascia strip logos are pre-tinted Grey 5 `#6B6B6B`. Referenced by absolute Pages URL in the template. |
+| `assets/logos/` | 2× PNGs rendered from the design-system brand SVGs (`debenhamsgroup.design/assets/brands`). Fascia strip logos are black `#0F0F0F`. Referenced by absolute Pages URL in the template. |
 | `original/giftcard-original.html` | The Nov 2025 production email, extracted from the `.eml`, card number / PIN / recipient redacted, Outlook safelinks unwrapped. Images still load from the live CDN. |
 
 ## Design decisions
 
 - **Debenhams mode of the group design system**, hard-coded because email can't consume CSS variables. Token map is in the comment at the top of the template: `text/primary #0F0F0F` (the only text colour), `surface/action #7BE7D8` with black ink, `text/link #00787D`, the aqua family `#B8FDF4 / #7BE7D8 / #76DECF / #70BEB3` for the card gradient, `border/subtle #E7E7E7` for hairlines.
-- **Type:** Geologica Light 300 body, SemiBold 600 headings, role sizes from the foundations (32/38 h1 mobile → 28 on small screens, 16 body, 14 secondary, 12 caption, 48 amount). Google Fonts link for Apple Mail / iOS; Arial fallback elsewhere.
+- **Type:** Geologica Light 300 body, SemiBold 600 headings, role sizes from the foundations (36/42 h1 → 30 on small screens, 16 body, 14 labels, 12 caption, 60 amount on the card). Google Fonts link for Apple Mail / iOS; Arial fallback elsewhere.
 - **Buttons are the DS button:** 50px, 16/24 SemiBold, 4px radius, primary uppercase on Primary Aqua with black label, secondary white with `#70BEB3` outline and sentence case.
 - **The card is the hero.** One object, 400×~250 at credit-card proportion, aqua gradient (brand-light-2 → primary → dark-1 → dark-2) with a soft highlight and drop shadow, amount centred at 60px, recipient name and expiry on the bottom edge like a real card. Flat Primary Aqua fallback where gradients or shadows aren't supported. The old black bezels and the mid-card fascia strip are gone; the fascias sit in a quiet "Also spend it at" row above the footer.
 - **One ink, two weights.** Everything is `#0F0F0F`; labels are Light 300, values SemiBold 600. No grey text, no grey panels — hairlines only. Fascia logos are black.
