@@ -102,11 +102,11 @@
         <i style="background:#7BE7D8"></i><span>surface/action · card</span><code>#7BE7D8</code>
         <i style="background:#00787D"></i><span>text/link</span><code>#00787D</code>
         <i style="background:#B8FDF4"></i><span>brand-light-2 · card gradient start</span><code>#B8FDF4</code>
-        <i style="background:#70BEB3"></i><span>brand-dark-2 · gradient end, outline</span><code>#70BEB3</code>
+        <i style="background:#70BEB3"></i><span>brand-dark-2 · gradient end</span><code>#70BEB3</code>
         <i style="background:#E7E7E7"></i><span>border/subtle</span><code>#E7E7E7</code>
                 <i style="background:#0F0F0F"></i><span>text/primary</span><code>#0F0F0F</code>
       </div>
-      <p class="note" style="margin-top:12px">Geologica 300 / 600 — hierarchy by weight, one ink #0F0F0F · buttons 16/24 SemiBold, 4px · card 18px with gradient + shadow (flat aqua in Outlook). Web font falls back to Arial in Gmail/Outlook.</p>
+      <p class="note" style="margin-top:12px">Geologica 300 / 600 — hierarchy by weight, one ink #0F0F0F · buttons 16/24 SemiBold, 4px · card 10px with gradient + shadow (flat aqua in Outlook). Web font falls back to Arial in Gmail/Outlook.</p>
     </div>
   </aside>
 
@@ -125,7 +125,7 @@
   const base=location.href.replace(/[^/]*$/,'');
 
   function data(){
-    const d={shop_url:'https://www.debenhams.com/',balance_url:'https://www.debenhams.com/giftcard/balance',account_url:'https://www.debenhams.com/account/giftcards',terms_url:'https://www.debenhams.com/help/gift-cards',privacy_url:'https://www.debenhams.com/privacy'};
+    const d={shop_url:'https://www.debenhams.com/',terms_url:'https://www.debenhams.com/help/gift-cards',privacy_url:'https://www.debenhams.com/privacy'};
     $$('[data-k]').forEach(el=>d[el.dataset.k]=el.value);
     d.is_refund=state.scenario==='refund';
     return d;

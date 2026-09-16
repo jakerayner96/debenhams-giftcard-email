@@ -14,10 +14,10 @@
     surface/page   #FFFFFF     border/subtle #E7E7E7 (hairlines only)
     card gradient  brand-light-2 #B8FDF4 → primary #7BE7D8 → brand-dark-1 #76DECF → brand-dark-2 #70BEB3
     surface/action #7BE7D8 (black ink)   btn-outline #70BEB3   text/link #00787D
-    radius/default 4 (buttons)  radius-16 primitive (card)
+    radius/default 4 (buttons)  10px card (ISO card proportion 1.586, ~3mm corner at 400px)
     type: Geologica · Light 300 · SemiBold 600 · button 16/24 SemiBold uppercase
   Merge fields (Mailgun handlebars): recipient_name, amount, card_number, pin, expiry_date,
-    is_refund, order_ref, sender_name, message, shop_url, balance_url, terms_url, privacy_url
+    is_refund, order_ref, sender_name, message, shop_url, terms_url, privacy_url
 -->
 <!--[if mso]>
 <xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml>
@@ -34,18 +34,15 @@
   a{text-decoration:none}
   a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !important;font-size:inherit !important;font-family:inherit !important;font-weight:inherit !important;line-height:inherit !important}
   .btn a:hover{background:#9DEDE2 !important}
-  .btn-sec a:hover{background:#FAFAFA !important}
   .card{box-shadow:0 28px 56px -20px rgba(30,111,99,.45),0 8px 20px -12px rgba(15,15,15,.25)}
   @media screen and (max-width:599px){
     .wrap{width:100% !important}
     .gutter{padding-left:20px !important;padding-right:20px !important}
     .stack{display:block !important;width:100% !important;box-sizing:border-box !important}
-    .stack-gap{padding-top:20px !important;padding-left:0 !important;padding-right:0 !important;border-left:0 !important}
-    .stack-btn{padding:12px 0 0 0 !important}
     .w400{width:100% !important}
     .card-pad{padding:24px 24px 0 24px !important}
     .card-foot{padding:0 24px 20px 24px !important}
-    .card-space{height:20px !important}
+    .card-space{height:36px !important}
     .h1{font-size:30px !important;line-height:36px !important}
     .amount{font-size:52px !important;line-height:56px !important}
     .step{padding:0 0 16px 0 !important}
@@ -87,7 +84,7 @@
     <!-- ===== the card ===== -->
     <tr>
       <td class="gutter" align="center" style="padding:40px 32px 8px 32px">
-        <table role="presentation" class="card w400" width="400" cellpadding="0" cellspacing="0" border="0" bgcolor="#7BE7D8" style="width:400px;max-width:400px;border-radius:18px;background-color:#7BE7D8;background-image:radial-gradient(120% 90% at 0% 0%,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 55%),linear-gradient(135deg,#B8FDF4 0%,#7BE7D8 42%,#76DECF 72%,#70BEB3 100%)">
+        <table role="presentation" class="card w400" width="400" cellpadding="0" cellspacing="0" border="0" bgcolor="#7BE7D8" style="width:400px;max-width:400px;border-radius:10px;background-color:#7BE7D8;background-image:radial-gradient(120% 90% at 0% 0%,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 55%),linear-gradient(135deg,#B8FDF4 0%,#7BE7D8 42%,#76DECF 72%,#70BEB3 100%)">
           <tr>
             <td class="card-pad" style="padding:26px 28px 0 28px">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -100,15 +97,15 @@
               </table>
             </td>
           </tr>
-          <tr><td class="card-space" style="height:34px;line-height:34px;font-size:1px">&nbsp;</td></tr>
+          <tr><td class="card-space" style="height:52px;line-height:52px;font-size:1px">&nbsp;</td></tr>
           <tr>
             <td align="center" style="padding:0 28px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
               <div class="amount" style="font-size:60px;line-height:64px;font-weight:600;letter-spacing:-0.03em">{{amount}}</div>
             </td>
           </tr>
-          <tr><td class="card-space" style="height:34px;line-height:34px;font-size:1px">&nbsp;</td></tr>
+          <tr><td class="card-space" style="height:52px;line-height:52px;font-size:1px">&nbsp;</td></tr>
           <tr>
-            <td class="card-foot" style="padding:0 28px 22px 28px">
+            <td class="card-foot" style="padding:0 28px 24px 28px">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td align="left" valign="bottom" style="padding:0;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:11px;line-height:16px;font-weight:600;letter-spacing:0.14em;color:#0F0F0F;text-transform:uppercase">{{recipient_name}}</td>
@@ -123,46 +120,45 @@
 
     <!-- ===== number + PIN ===== -->
     <tr>
-      <td class="gutter" align="center" style="padding:40px 32px 0 32px">
-        <table role="presentation" class="w400" width="400" cellpadding="0" cellspacing="0" border="0" style="width:400px;max-width:400px">
-          <tr>
-            <td class="stack" width="70%" valign="top" align="left" style="padding:0 20px 0 0;font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
-              <p style="margin:0 0 6px 0;font-size:13px;line-height:18px;font-weight:300">Gift card number</p>
-              <p style="margin:0;font-size:20px;line-height:28px;font-weight:600;letter-spacing:0.02em;white-space:nowrap">{{card_number}}</p>
-            </td>
-            <td class="stack stack-gap" width="30%" valign="top" align="left" style="padding:0 0 0 20px;border-left:1px solid #E7E7E7;font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
-              <p style="margin:0 0 6px 0;font-size:13px;line-height:18px;font-weight:300">PIN</p>
-              <p style="margin:0;font-size:20px;line-height:28px;font-weight:600;letter-spacing:0.02em">{{pin}}</p>
-            </td>
-          </tr>
-        </table>
-        <p style="margin:20px 0 0 0;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;font-weight:300;color:#0F0F0F">Enter both at checkout to redeem.</p>
+      <td class="gutter" align="center" style="padding:40px 32px 0 32px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
+        <p style="margin:0 0 6px 0;font-size:13px;line-height:18px;font-weight:300">Gift card number</p>
+        <p style="margin:0;font-size:22px;line-height:28px;font-weight:600;letter-spacing:0.04em">{{card_number}}</p>
+        <p style="margin:20px 0 6px 0;font-size:13px;line-height:18px;font-weight:300">PIN</p>
+        <p style="margin:0;font-size:22px;line-height:28px;font-weight:600;letter-spacing:0.04em">{{pin}}</p>
+        <p style="margin:24px 0 0 0;font-size:14px;line-height:20px;font-weight:300">Enter both at checkout to redeem.</p>
       </td>
     </tr>
 
-    <!-- ===== CTAs ===== -->
+    {{#if is_refund}}{{else}}
+    <!-- ===== personal message ===== -->
+    <tr>
+      <td class="gutter" align="center" style="padding:40px 32px 0 32px">
+        <table role="presentation" class="w400" width="400" cellpadding="0" cellspacing="0" border="0" style="width:400px;max-width:400px">
+          <tr>
+            <td align="center" style="font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
+              <div style="font-size:44px;line-height:32px;font-weight:600;color:#7BE7D8">&ldquo;</div>
+              <p style="margin:0;font-size:20px;line-height:30px;font-weight:300">{{message}}</p>
+              <p style="margin:16px 0 0 0;font-size:13px;line-height:18px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase">{{sender_name}}</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    {{/if}}
+
+    <!-- ===== CTA ===== -->
     <tr>
       <td class="gutter" align="center" style="padding:32px 32px 0 32px">
         <table role="presentation" class="w400" width="400" cellpadding="0" cellspacing="0" border="0" style="width:400px;max-width:400px">
           <tr>
-            <td class="stack" width="50%" style="padding:0 6px 0 0">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-                <td class="btn" align="center" style="border-radius:4px;background:#7BE7D8">
-                  <a href="{{shop_url}}" style="display:block;padding:13px 20px;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;font-weight:600;letter-spacing:0.02em;text-transform:uppercase;color:#000000;border-radius:4px;background:#7BE7D8">Shop now</a>
-                </td>
-              </tr></table>
-            </td>
-            <td class="stack stack-btn" width="50%" style="padding:0 0 0 6px">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-                <td class="btn-sec" align="center" style="border-radius:4px;background:#FFFFFF;border:1px solid #70BEB3">
-                  <a href="{{balance_url}}" style="display:block;padding:12px 20px;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;font-weight:600;letter-spacing:0.02em;color:#000000;border-radius:4px;background:#FFFFFF">Check balance</a>
-                </td>
-              </tr></table>
+            <td class="btn" align="center" style="border-radius:4px;background:#7BE7D8">
+              <a href="{{shop_url}}" style="display:block;padding:13px 24px;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;font-weight:600;letter-spacing:0.02em;text-transform:uppercase;color:#000000;border-radius:4px;background:#7BE7D8">Shop now</a>
             </td>
           </tr>
         </table>
       </td>
     </tr>
+
 
     {{#if is_refund}}
     <!-- ===== refund facts ===== -->
@@ -183,21 +179,6 @@
           </tr>
         </table>
         <p style="margin:20px 0 0 0;font-size:13px;line-height:19px;font-weight:300;max-width:400px">This refund method applies to all eligible returns from this order. More in our <a href="{{shop_url}}help/returns" style="color:#00787D;text-decoration:underline">returns FAQs</a>.</p>
-      </td>
-    </tr>
-    {{else}}
-    <!-- ===== personal message ===== -->
-    <tr>
-      <td class="gutter" align="center" style="padding:48px 32px 0 32px">
-        <table role="presentation" class="w400" width="400" cellpadding="0" cellspacing="0" border="0" style="width:400px;max-width:400px">
-          <tr>
-            <td align="center" style="font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
-              <div style="font-size:44px;line-height:32px;font-weight:600;color:#7BE7D8">&ldquo;</div>
-              <p style="margin:0;font-size:20px;line-height:30px;font-weight:300">{{message}}</p>
-              <p style="margin:16px 0 0 0;font-size:13px;line-height:18px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase">{{sender_name}}</p>
-            </td>
-          </tr>
-        </table>
       </td>
     </tr>
     {{/if}}
