@@ -4,7 +4,9 @@ import fs from 'node:fs';
 const BASE = 'https://jakerayner96.github.io/debenhams-giftcard-email/assets/logos/';
 const { brands } = JSON.parse(fs.readFileSync('brands.json', 'utf8'));
 const src = fs.readFileSync('template/giftcard.src.html', 'utf8');
+const hasSvg = id => fs.existsSync(`assets/logos/svg/${id}.svg`);
 const logoDims = id => {
+  if (!hasSvg(id)) return { w: 0, h: 0, cw: 0, ch: 0 };
   const svg = fs.readFileSync(`assets/logos/svg/${id}.svg`, 'utf8');
   const vb = svg.match(/viewBox="([\d.\s-]+)"/)[1].split(/\s+/).map(Number);
   const aspect = vb[2] / vb[3];
@@ -44,6 +46,13 @@ for (const b of brands) {
     LOGO_BLACK: `${BASE}${b.id}.png`, LOGO_WHITE: `${BASE}${b.id}-white.png`,
     LOGO_W: d.w, LOGO_H: d.h, CARD_LOGO_W: d.cw, CARD_LOGO_H: d.ch,
     SATELLITES: satellites(b),
+    // wordmark: PNG from the DS SVG, or a text wordmark for fascias the DS has no mark for yet
+    HEADER_LOGO: hasSvg(b.id)
+      ? `<img src="${BASE}${b.id}.png" width="${d.w}" height="${d.h}" alt="${b.name}" style="display:block;width:${d.w}px;height:${d.h}px">`
+      : `<span style="display:inline-block;font-family:${b.font};font-size:20px;line-height:24px;font-weight:${b.strong};letter-spacing:-0.01em;color:${b.ink}">${b.name}</span>`,
+    CARD_LOGO: hasSvg(b.id)
+      ? `<img src="${BASE}${b.id}-white.png" width="${d.cw}" height="${d.ch}" alt="${b.name}" style="display:block;width:${d.cw}px;height:${d.ch}px">`
+      : `<span style="display:inline-block;font-family:${b.font};font-size:17px;line-height:20px;font-weight:${b.strong};letter-spacing:-0.01em;color:#FFFFFF">${b.name}</span>`,
   };
   let out = src.replace(/\[\[([A-Z_]+)\]\]/g, (m, k) => { if (!(k in map)) throw new Error(`no value for ${m}`); return String(map[k]); });
   fs.writeFileSync(`template/${b.id}.html`, out);

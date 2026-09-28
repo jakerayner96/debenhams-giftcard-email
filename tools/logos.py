@@ -16,6 +16,8 @@ def dims(b):
     return svg, w, h
 out = {}
 for b in brands:
+    if not (ROOT / 'assets/logos/svg' / f"{b['id']}.svg").exists():
+        out[b['id']] = 'no svg on the DS site — text wordmark'; continue
     svg, w, h = dims(b)
     svg2 = re.sub(r'<svg([^>]*?)\swidth="[^"]+"\sheight="[^"]+"', r'<svg\1 width="%d" height="%d"' % (w * 2, h * 2), svg, count=1)
     html = f'<!doctype html><html><body style="margin:0;background:transparent">{svg2}</body></html>'
