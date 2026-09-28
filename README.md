@@ -10,26 +10,27 @@ Redesign of the transactional "You've been sent a gift card!" email (sender `gif
 |---|---|
 | `index.html` | Preview shell — New vs Original, Refund vs Gift, 375 / 600 / 760, editable merge fields, copy rendered HTML. Serve over HTTP (`python3 -m http.server 3000`). |
 | `template/giftcard.html` | The email. Table layout, inline styles, 600px, MSO guards, Mailgun handlebars merge fields (`{{amount}}`, `{{#if is_refund}}…{{else}}…{{/if}}`). |
-| `assets/logos/` | 2× PNGs rendered from the design-system brand SVGs (`debenhamsgroup.design/assets/brands`). Fascia strip logos are black `#0F0F0F`. Referenced by absolute Pages URL in the template. |
+| `assets/logos/` | 2× PNGs rendered from the design-system brand SVGs (`debenhamsgroup.design/assets/brands`). Fascia strip logos are black `#0F0F0F`; `debenhams-white.png` is the same mark recoloured for the black card. Referenced by absolute Pages URL in the template. |
 | `original/giftcard-original.html` | The Nov 2025 production email, extracted from the `.eml`, card number / PIN / recipient redacted, Outlook safelinks unwrapped. Images still load from the live CDN. |
 
 ## Design decisions
 
-- **Debenhams mode of the group design system**, hard-coded because email can't consume CSS variables. Token map is in the comment at the top of the template: `text/primary #0F0F0F` (the only text colour), `surface/action #7BE7D8` with black ink, `text/link #00787D`, the aqua family `#B8FDF4 / #7BE7D8 / #76DECF / #70BEB3` for the card gradient, `border/subtle #E7E7E7` for hairlines.
-- **Type:** Geologica Light 300 body, SemiBold 600 headings, role sizes from the foundations (36/42 h1 → 30 on small screens, 16 body, 14 labels, 12 caption, 60 amount on the card). Google Fonts link for Apple Mail / iOS; Arial fallback elsewhere.
-- **The button is the DS primary button:** 50px, 16/24 SemiBold, 4px radius, uppercase on Primary Aqua with black label.
-- **The card is the hero.** One object, 400×252 at ISO card proportion (1.586), aqua gradient (brand-light-2 → primary → dark-1 → dark-2) with a soft highlight and drop shadow, amount centred at 60px, recipient name and expiry on the bottom edge like a real card. Flat Primary Aqua fallback where gradients or shadows aren't supported. The old black bezels and the mid-card fascia strip are gone; the fascias sit in a quiet "Also spend it at" row above the footer.
-- **One ink, two weights.** Everything is `#0F0F0F`; labels are Light 300, values SemiBold 600. No grey text, no grey panels — hairlines only. Fascia logos are black.
-- **Number and PIN** sit centred and stacked under the card, Light label over SemiBold value, no box. They were previously grey-on-dark inside a dashed box.
-- **Scenario-specific copy.** Refund: "Your £40.25 refund, ready to spend" plus an Order / Refund method / Valid until fact list. Gift: "A gift for you", sender's message as a centred pull-quote between the PIN and the button. The old template said "A gift for you!" to refund customers and buried the 90-day validity in a paragraph.
-- **One CTA**, Shop now, the DS primary button at card width. Check balance and the header nav row dropped — it's a transactional email.
-- **How to redeem** as three numbered steps (01/02/03) under a hairline.
-- **Radius:** 4 (buttons), 10 (card — ISO ID-1 proportion 400×252, corner scaled from the real 3mm).
-- Not in scope: dark-mode colour swap (`color-scheme` locked to light), Outlook rounded corners (falls back to square), per-fascia variants (Debenhams only — the group fascias share this card).
+- **Debenhams mode of the group design system**, hard-coded because email can't consume CSS variables. Token map is in the comment at the top of the template: `text/primary #0F0F0F` (the only text colour on the page), `surface/action #7BE7D8` for the button, links and the PIN-notice rule, `border/subtle #E7E7E7` for hairlines.
+- **The card is black for every fascia.** Flat `#0F0F0F`, white ink, 10px corners, no gradient and no shadow (per Paul, 28 Sep 2026: they don't render reliably in mail clients). The fascia accent is carried by the Shop now button only, so a per-brand variant is a one-colour swap.
+- **Everything needed to redeem is on the card:** amount top-right, card number, PIN and Use by, laid out like a physical gift card. The number and PIN no longer sit in a separate block under the card.
+- **Gift scenario order** follows Paul's mock: logo → "{{recipient_name}}, {{sender_name}} has sent you a gift" (uppercase SemiBold) → the sender's message as an italic Georgia pull-quote → "Here's your gift card. Keep this email safe…" → card → button → Check your balance. His gift-box illustration is not used; the card is the hero. Refund keeps "Hi {{recipient_name}}, / Your refund, ready to spend" and its Order / Refunded to / Valid for fact list.
+- **Type:** Geologica Light 300 body, SemiBold 600 headings, role sizes from the foundations (36/42 h1 → 30 on small screens; gift headline 34/40 → 28; 16 body, 14 labels, 12 caption). Georgia italic for the gift message only (Geologica has no italic; Georgia is universally installed). Google Fonts link for Apple Mail / iOS; Arial fallback elsewhere.
+- **The button is the DS primary button:** 50px, 16/24 SemiBold, 4px radius, uppercase on Primary Aqua with black label. **Check your balance** is a text link beneath it (`balance_url`).
+- **Links are aqua `#7BE7D8`, SemiBold, no underline** (Jake, 28 Sep 2026). Note aqua on white is well below AA contrast for text; weight and position carry them.
+- **How to spend it** is two columns, Online / In the app, replacing the 01/02/03 steps. **Treat your PIN like cash** sits under it with a 3px aqua left rule — no grey panel.
+- **One ink, two weights.** Everything on the page is `#0F0F0F`; labels are Light 300, values SemiBold 600. No grey text, no grey panels — hairlines only. Fascia logos are black.
+- **Footer** adds "Sent on behalf of {{sender_name}}. Order reference {{order_ref}}." for the gift scenario so support has a handle.
+- **Radius:** 4 (buttons), 10 (card).
+- Not in scope: dark-mode colour swap (`color-scheme` locked to light), Outlook rounded corners (falls back to square), per-fascia variants (Debenhams only — swapping `#7BE7D8` on the button is the whole job now).
 
 ## Merge fields
 
-`recipient_name` · `amount` · `card_number` · `pin` · `expiry_date` · `is_refund` · `order_ref` · `sender_name` · `message` · `shop_url` · `terms_url` · `privacy_url`
+`recipient_name` · `amount` · `card_number` · `pin` · `expiry_date` · `is_refund` · `order_ref` (both scenarios) · `sender_name` · `message` · `shop_url` · `balance_url` · `terms_url` · `privacy_url`
 
 ## Source
 

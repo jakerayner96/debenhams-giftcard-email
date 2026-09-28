@@ -6,18 +6,18 @@
 <meta name="x-apple-disable-message-reformatting">
 <meta name="color-scheme" content="light">
 <meta name="supported-color-schemes" content="light">
-<title>{{#if is_refund}}Your {{amount}} refund is ready to spend{{else}}You've been sent a gift card{{/if}}</title>
+<title>{{#if is_refund}}Your {{amount}} refund is ready to spend{{else}}{{sender_name}} has sent you a gift{{/if}}</title>
 <!--
-  Debenhams gift card email — v2.1 (16 Sep 2026)
+  Debenhams gift card email — v2.2 (28 Sep 2026)
   Token map (Debenhams mode, debenhamsgroup.design/assets/ds/tokens.css):
-    text/primary   #0F0F0F  — the only text colour; hierarchy is weight (Light 300 vs SemiBold 600), not grey
+    text/primary   #0F0F0F  — the only text colour on the page; hierarchy is weight (Light 300 vs SemiBold 600), not grey
     surface/page   #FFFFFF     border/subtle #E7E7E7 (hairlines only)
-    card gradient  brand-light-2 #B8FDF4 → primary #7BE7D8 → brand-dark-1 #76DECF → brand-dark-2 #70BEB3
-    surface/action #7BE7D8 (black ink)   btn-outline #70BEB3   text/link #00787D
-    radius/default 4 (buttons)  10px card (ISO card proportion 1.586, ~3mm corner at 400px)
-    type: Geologica · Light 300 · SemiBold 600 · button 16/24 SemiBold uppercase
+    card           #0F0F0F flat, white ink — brand-neutral, identical for every fascia. No gradients, no shadows (mail clients).
+    surface/action #7BE7D8 — the fascia accent: the Shop now button, text links and the PIN-notice rule. Swap this per fascia.
+    radius/default 4 (buttons)  10px card
+    type: Geologica · Light 300 · SemiBold 600 · button 16/24 SemiBold uppercase · gift message Georgia italic
   Merge fields (Mailgun handlebars): recipient_name, amount, card_number, pin, expiry_date,
-    is_refund, order_ref, sender_name, message, shop_url, terms_url, privacy_url
+    is_refund, order_ref, sender_name, message, shop_url, balance_url, terms_url, privacy_url
 -->
 <!--[if mso]>
 <xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml>
@@ -34,18 +34,18 @@
   a{text-decoration:none}
   a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !important;font-size:inherit !important;font-family:inherit !important;font-weight:inherit !important;line-height:inherit !important}
   .btn a:hover{background:#9DEDE2 !important}
-  .card{box-shadow:0 28px 56px -20px rgba(30,111,99,.45),0 8px 20px -12px rgba(15,15,15,.25)}
   @media screen and (max-width:599px){
     .wrap{width:100% !important}
     .gutter{padding-left:20px !important;padding-right:20px !important}
     .stack{display:block !important;width:100% !important;box-sizing:border-box !important}
     .w400{width:100% !important}
     .card-pad{padding:24px 24px 0 24px !important}
-    .card-foot{padding:0 24px 20px 24px !important}
-    .card-space{height:36px !important}
+    .card-mid{padding:36px 24px 0 24px !important}
+    .card-foot{padding:24px 24px 22px 24px !important}
     .h1{font-size:30px !important;line-height:36px !important}
-    .amount{font-size:52px !important;line-height:56px !important}
-    .step{padding:0 0 16px 0 !important}
+    .h1-gift{font-size:28px !important;line-height:34px !important}
+    .num{font-size:20px !important;line-height:26px !important;letter-spacing:0.02em !important}
+    .col{padding:0 0 24px 0 !important}
   }
 </style>
 </head>
@@ -73,43 +73,60 @@
     </tr>
 
     <!-- ===== hero copy ===== -->
+    {{#if is_refund}}
     <tr>
       <td class="gutter" align="center" style="padding:48px 32px 0 32px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
-        <p style="margin:0 0 14px 0;font-size:14px;line-height:20px;font-weight:300">{{#if is_refund}}Hi {{recipient_name}},{{else}}To {{recipient_name}}{{/if}}</p>
-        <h1 class="h1" style="margin:0;font-size:36px;line-height:42px;font-weight:600;letter-spacing:-0.015em">{{#if is_refund}}Your refund,<br>ready to spend{{else}}A gift for you{{/if}}</h1>
-        <p style="margin:16px 0 0 0;font-size:16px;line-height:24px;font-weight:300;max-width:400px">{{#if is_refund}}Order {{order_ref}} has been refunded onto a Debenhams gift card, as you chose.{{else}}{{sender_name}} has sent you a Debenhams gift card to spend online and in the app.{{/if}}</p>
+        <p style="margin:0 0 14px 0;font-size:14px;line-height:20px;font-weight:300">Hi {{recipient_name}},</p>
+        <h1 class="h1" style="margin:0;font-size:36px;line-height:42px;font-weight:600;letter-spacing:-0.015em">Your refund,<br>ready to spend</h1>
+        <p style="margin:16px 0 0 0;font-size:16px;line-height:24px;font-weight:300;max-width:400px">Order {{order_ref}} has been refunded onto a Debenhams gift card, as you chose. Keep this email safe &mdash; you&rsquo;ll need both numbers on the card to spend it.</p>
       </td>
     </tr>
-
-    <!-- ===== the card ===== -->
+    {{else}}
     <tr>
-      <td class="gutter" align="center" style="padding:40px 32px 8px 32px">
-        <table role="presentation" class="card w400" width="400" cellpadding="0" cellspacing="0" border="0" bgcolor="#7BE7D8" style="width:400px;max-width:400px;border-radius:10px;background-color:#7BE7D8;background-image:radial-gradient(120% 90% at 0% 0%,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 55%),linear-gradient(135deg,#B8FDF4 0%,#7BE7D8 42%,#76DECF 72%,#70BEB3 100%)">
+      <td class="gutter" align="center" style="padding:48px 32px 0 32px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
+        <h1 class="h1 h1-gift" style="margin:0;font-size:34px;line-height:40px;font-weight:600;letter-spacing:0.01em;text-transform:uppercase;max-width:480px">{{recipient_name}}, {{sender_name}} has sent you a gift</h1>
+        <p style="margin:24px 0 0 0;font-family:Georgia,'Times New Roman',Times,serif;font-style:italic;font-size:20px;line-height:30px;font-weight:400;max-width:440px">&ldquo;{{message}}&rdquo;</p>
+        <p style="margin:28px 0 0 0;font-size:16px;line-height:24px;font-weight:300;max-width:400px">Here&rsquo;s your gift card. Keep this email safe &mdash; you&rsquo;ll need both numbers on it to spend it.</p>
+      </td>
+    </tr>
+    {{/if}}
+
+    <!-- ===== the card =====
+         Flat #0F0F0F for every fascia, white ink, no gradient or shadow. The fascia accent lives on the button, not here.
+         Everything needed to redeem is on the card: amount, number, PIN, expiry. -->
+    <tr>
+      <td class="gutter" align="center" style="padding:40px 32px 0 32px">
+        <table role="presentation" class="w400" width="400" cellpadding="0" cellspacing="0" border="0" bgcolor="#0F0F0F" style="width:400px;max-width:400px;border-radius:10px;background-color:#0F0F0F">
           <tr>
             <td class="card-pad" style="padding:26px 28px 0 28px">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td align="left" valign="middle" style="padding:0">
-                    <img src="https://jakerayner96.github.io/debenhams-giftcard-email/assets/logos/debenhams.png" width="115" height="17" alt="Debenhams" style="display:block;width:115px;height:17px">
+                    <img src="https://jakerayner96.github.io/debenhams-giftcard-email/assets/logos/debenhams-white.png" width="115" height="17" alt="Debenhams" style="display:block;width:115px;height:17px">
                   </td>
-                  <td align="right" valign="middle" style="padding:0;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:11px;line-height:16px;font-weight:600;letter-spacing:0.16em;color:#0F0F0F;text-transform:uppercase;white-space:nowrap">Gift card</td>
+                  <td align="right" valign="middle" style="padding:0 0 0 12px;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:28px;line-height:32px;font-weight:600;letter-spacing:-0.02em;color:#FFFFFF;white-space:nowrap">{{amount}}</td>
                 </tr>
               </table>
             </td>
           </tr>
-          <tr><td class="card-space" style="height:52px;line-height:52px;font-size:1px">&nbsp;</td></tr>
           <tr>
-            <td align="center" style="padding:0 28px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
-              <div class="amount" style="font-size:60px;line-height:64px;font-weight:600;letter-spacing:-0.03em">{{amount}}</div>
+            <td class="card-mid" align="left" style="padding:44px 28px 0 28px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#FFFFFF">
+              <p style="margin:0 0 4px 0;font-size:11px;line-height:16px;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;color:#FFFFFF">Card number</p>
+              <p class="num" style="margin:0;font-size:22px;line-height:28px;font-weight:600;letter-spacing:0.04em;color:#FFFFFF">{{card_number}}</p>
             </td>
           </tr>
-          <tr><td class="card-space" style="height:52px;line-height:52px;font-size:1px">&nbsp;</td></tr>
           <tr>
-            <td class="card-foot" style="padding:0 28px 24px 28px">
+            <td class="card-foot" style="padding:26px 28px 24px 28px">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                  <td align="left" valign="bottom" style="padding:0;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:11px;line-height:16px;font-weight:600;letter-spacing:0.14em;color:#0F0F0F;text-transform:uppercase">{{recipient_name}}</td>
-                  <td align="right" valign="bottom" style="padding:0 0 0 12px;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:12px;line-height:16px;font-weight:300;color:#0F0F0F;white-space:nowrap">Valid until <span style="font-weight:600">{{expiry_date}}</span></td>
+                  <td align="left" valign="bottom" style="padding:0;font-family:Geologica,Arial,Helvetica,sans-serif;color:#FFFFFF">
+                    <p style="margin:0 0 4px 0;font-size:11px;line-height:16px;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;color:#FFFFFF">PIN</p>
+                    <p class="num" style="margin:0;font-size:22px;line-height:28px;font-weight:600;letter-spacing:0.04em;color:#FFFFFF">{{pin}}</p>
+                  </td>
+                  <td align="right" valign="bottom" style="padding:0 0 0 12px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#FFFFFF;white-space:nowrap">
+                    <p style="margin:0 0 4px 0;font-size:11px;line-height:16px;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;color:#FFFFFF">Use by</p>
+                    <p style="margin:0;font-size:14px;line-height:20px;font-weight:600;color:#FFFFFF">{{expiry_date}}</p>
+                  </td>
                 </tr>
               </table>
             </td>
@@ -118,35 +135,7 @@
       </td>
     </tr>
 
-    <!-- ===== number + PIN ===== -->
-    <tr>
-      <td class="gutter" align="center" style="padding:40px 32px 0 32px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
-        <p style="margin:0 0 6px 0;font-size:13px;line-height:18px;font-weight:300">Gift card number</p>
-        <p style="margin:0;font-size:22px;line-height:28px;font-weight:600;letter-spacing:0.04em">{{card_number}}</p>
-        <p style="margin:20px 0 6px 0;font-size:13px;line-height:18px;font-weight:300">PIN</p>
-        <p style="margin:0;font-size:22px;line-height:28px;font-weight:600;letter-spacing:0.04em">{{pin}}</p>
-        <p style="margin:24px 0 0 0;font-size:14px;line-height:20px;font-weight:300">Enter both at checkout to redeem.</p>
-      </td>
-    </tr>
-
-    {{#if is_refund}}{{else}}
-    <!-- ===== personal message ===== -->
-    <tr>
-      <td class="gutter" align="center" style="padding:40px 32px 0 32px">
-        <table role="presentation" class="w400" width="400" cellpadding="0" cellspacing="0" border="0" style="width:400px;max-width:400px">
-          <tr>
-            <td align="center" style="font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
-              <div style="font-size:44px;line-height:32px;font-weight:600;color:#7BE7D8">&ldquo;</div>
-              <p style="margin:0;font-size:20px;line-height:30px;font-weight:300">{{message}}</p>
-              <p style="margin:16px 0 0 0;font-size:13px;line-height:18px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase">{{sender_name}}</p>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-    {{/if}}
-
-    <!-- ===== CTA ===== -->
+    <!-- ===== CTA — the fascia accent (surface/action #7BE7D8 for Debenhams) ===== -->
     <tr>
       <td class="gutter" align="center" style="padding:32px 32px 0 32px">
         <table role="presentation" class="w400" width="400" cellpadding="0" cellspacing="0" border="0" style="width:400px;max-width:400px">
@@ -158,7 +147,11 @@
         </table>
       </td>
     </tr>
-
+    <tr>
+      <td class="gutter" align="center" style="padding:20px 32px 0 32px;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;font-weight:600">
+        <a href="{{balance_url}}" style="color:#7BE7D8;text-decoration:none">Check your balance</a>
+      </td>
+    </tr>
 
     {{#if is_refund}}
     <!-- ===== refund facts ===== -->
@@ -178,29 +171,36 @@
             <td align="right" style="padding:12px 0 0 0;font-size:14px;line-height:20px;font-weight:600">90 days</td>
           </tr>
         </table>
-        <p style="margin:20px 0 0 0;font-size:13px;line-height:19px;font-weight:300;max-width:400px">This refund method applies to all eligible returns from this order. More in our <a href="{{shop_url}}help/returns" style="color:#00787D;text-decoration:underline">returns FAQs</a>.</p>
+        <p style="margin:20px 0 0 0;font-size:13px;line-height:19px;font-weight:300;max-width:400px">This refund method applies to all eligible returns from this order. More in our <a href="{{shop_url}}help/returns" style="color:#7BE7D8;text-decoration:none;font-weight:600">returns FAQs</a>.</p>
       </td>
     </tr>
     {{/if}}
 
-    <!-- ===== how to redeem ===== -->
+    <!-- ===== how to spend it: online / in the app ===== -->
     <tr><td class="gutter" style="padding:48px 32px 0 32px"><div style="height:1px;line-height:1px;font-size:1px;background:#E7E7E7">&nbsp;</div></td></tr>
     <tr>
       <td class="gutter" style="padding:32px 32px 0 32px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
-            <td class="stack step" width="33%" valign="top" style="padding:0 16px 0 0">
-              <p style="margin:0 0 6px 0;font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.14em">01</p>
-              <p style="margin:0;font-size:14px;line-height:20px;font-weight:300">Add what you love to your bag.</p>
+            <td class="stack col" width="50%" valign="top" style="padding:0 20px 0 0">
+              <p style="margin:0 0 6px 0;font-size:16px;line-height:24px;font-weight:600">Online</p>
+              <p style="margin:0;font-size:14px;line-height:20px;font-weight:300">At checkout on debenhams.com, choose <span style="font-weight:600">Gift card</span> and enter your card number and PIN.</p>
             </td>
-            <td class="stack step" width="33%" valign="top" style="padding:0 8px">
-              <p style="margin:0 0 6px 0;font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.14em">02</p>
-              <p style="margin:0;font-size:14px;line-height:20px;font-weight:300">At checkout, choose <span style="font-weight:600">Gift card</span>.</p>
+            <td class="stack col" width="50%" valign="top" style="padding:0 0 0 20px">
+              <p style="margin:0 0 6px 0;font-size:16px;line-height:24px;font-weight:600">In the app</p>
+              <p style="margin:0;font-size:14px;line-height:20px;font-weight:300">Add it at payment, or save it to your account to use across more than one order.</p>
             </td>
-            <td class="stack step" width="33%" valign="top" style="padding:0 0 0 16px">
-              <p style="margin:0 0 6px 0;font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.14em">03</p>
-              <p style="margin:0;font-size:14px;line-height:20px;font-weight:300">Enter the number and PIN.</p>
-            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- ===== PIN notice ===== -->
+    <tr>
+      <td class="gutter" style="padding:32px 32px 0 32px">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td style="padding:2px 0 2px 16px;border-left:3px solid #7BE7D8;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;font-weight:300;color:#0F0F0F"><span style="font-weight:600">Treat your PIN like cash.</span> We&rsquo;ll never ask for it by phone, text or email, and we can&rsquo;t replace a gift card that&rsquo;s been spent by someone else.</td>
           </tr>
         </table>
       </td>
@@ -225,7 +225,8 @@
     <!-- ===== footer ===== -->
     <tr>
       <td class="gutter" align="center" style="padding:36px 32px 44px 32px;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:12px;line-height:18px;font-weight:300;color:#0F0F0F">
-        <p style="margin:0 0 10px 0"><a href="{{terms_url}}" style="color:#00787D;text-decoration:underline">Gift card terms &amp; conditions</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="{{privacy_url}}" style="color:#00787D;text-decoration:underline">Privacy policy</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="mailto:customerservices@debenhams.co.uk" style="color:#00787D;text-decoration:underline">Help</a></p>
+        {{#if is_refund}}{{else}}<p style="margin:0 0 10px 0">Sent on behalf of {{sender_name}}. Order reference {{order_ref}}.</p>{{/if}}
+        <p style="margin:0 0 10px 0;font-weight:600"><a href="{{terms_url}}" style="color:#7BE7D8;text-decoration:none">Gift card terms &amp; conditions</a>&nbsp;&nbsp;<span style="font-weight:300;color:#0F0F0F">·</span>&nbsp;&nbsp;<a href="{{privacy_url}}" style="color:#7BE7D8;text-decoration:none">Privacy policy</a>&nbsp;&nbsp;<span style="font-weight:300;color:#0F0F0F">·</span>&nbsp;&nbsp;<a href="mailto:customerservices@debenhams.co.uk" style="color:#7BE7D8;text-decoration:none">Help</a></p>
         <p style="margin:0">This is not a marketing email. Debenhams Brands Limited. Registered company number: 113135555</p>
       </td>
     </tr>

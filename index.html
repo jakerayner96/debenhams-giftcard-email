@@ -49,7 +49,7 @@
   <aside>
     <div>
       <h1>Gift card email</h1>
-      <p class="sub">Debenhams · transactional · v2 redesign</p>
+      <p class="sub">Debenhams · transactional · v2.2</p>
     </div>
 
     <div>
@@ -84,7 +84,7 @@
       <label class="f"><span>card_number</span><input data-k="card_number" value="VLBX-PTEB-D3X8-JYWD"></label>
       <label class="f"><span>pin</span><input data-k="pin" value="EN5V"></label>
       <label class="f"><span>expiry_date</span><input data-k="expiry_date" value="8 Feb 2027"></label>
-      <label class="f" data-only="refund"><span>order_ref</span><input data-k="order_ref" value="DUX058466887"></label>
+      <label class="f"><span>order_ref</span><input data-k="order_ref" value="DUX058466887"></label>
       <label class="f" data-only="gift"><span>sender_name</span><input data-k="sender_name" value="Sarah"></label>
       <label class="f" data-only="gift"><span>message</span><textarea data-k="message">Happy birthday! Treat yourself to something you actually want this year. Love you loads.</textarea></label>
     </div>
@@ -99,14 +99,12 @@
     <div>
       <p class="eyebrow">Tokens in play</p>
       <div class="tok">
-        <i style="background:#7BE7D8"></i><span>surface/action · card</span><code>#7BE7D8</code>
-        <i style="background:#00787D"></i><span>text/link</span><code>#00787D</code>
-        <i style="background:#B8FDF4"></i><span>brand-light-2 · card gradient start</span><code>#B8FDF4</code>
-        <i style="background:#70BEB3"></i><span>brand-dark-2 · gradient end</span><code>#70BEB3</code>
+        <i style="background:#0F0F0F"></i><span>card · text/primary</span><code>#0F0F0F</code>
+        <i style="background:#7BE7D8"></i><span>surface/action · button, links, PIN rule</span><code>#7BE7D8</code>
         <i style="background:#E7E7E7"></i><span>border/subtle</span><code>#E7E7E7</code>
-                <i style="background:#0F0F0F"></i><span>text/primary</span><code>#0F0F0F</code>
+        <i style="background:#FFFFFF"></i><span>card ink</span><code>#FFFFFF</code>
       </div>
-      <p class="note" style="margin-top:12px">Geologica 300 / 600 — hierarchy by weight, one ink #0F0F0F · buttons 16/24 SemiBold, 4px · card 10px with gradient + shadow (flat aqua in Outlook). Web font falls back to Arial in Gmail/Outlook.</p>
+      <p class="note" style="margin-top:12px">Geologica 300 / 600 — hierarchy by weight, one ink #0F0F0F · buttons 16/24 SemiBold, 4px · flat black card, 10px, white ink, no gradients or shadows · gift message in Georgia italic · links aqua, no underline. Web font falls back to Arial in Gmail/Outlook.</p>
     </div>
   </aside>
 
@@ -125,7 +123,7 @@
   const base=location.href.replace(/[^/]*$/,'');
 
   function data(){
-    const d={shop_url:'https://www.debenhams.com/',terms_url:'https://www.debenhams.com/help/gift-cards',privacy_url:'https://www.debenhams.com/privacy'};
+    const d={shop_url:'https://www.debenhams.com/',balance_url:'https://www.debenhams.com/gift-card-balance',terms_url:'https://www.debenhams.com/help/gift-cards',privacy_url:'https://www.debenhams.com/privacy'};
     $$('[data-k]').forEach(el=>d[el.dataset.k]=el.value);
     d.is_refund=state.scenario==='refund';
     return d;
