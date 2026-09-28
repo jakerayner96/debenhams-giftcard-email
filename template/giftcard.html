@@ -12,7 +12,7 @@
   Token map (Debenhams mode, debenhamsgroup.design/assets/ds/tokens.css):
     text/primary   #0F0F0F  — the only text colour on the page; hierarchy is weight (Light 300 vs SemiBold 600), not grey
     surface/page   #FFFFFF     border/subtle #E7E7E7 (hairlines only)
-    card           #0F0F0F flat, white ink — brand-neutral, identical for every fascia. No gradients, no shadows (mail clients).
+    card           #0F0F0F flat, white ink — v2.1 card layout, recoloured. Brand-neutral, identical for every fascia. No gradients, no shadows (mail clients).
     surface/action #7BE7D8 Primary Aqua — the Shop now button fill only (black ink). Swap per fascia.
     text/link      #00787D CTA Aqua — every text link (SemiBold, no underline) and the PIN-notice rule. Primary Aqua is not a text colour.
     radius/default 4 (buttons)  10px card
@@ -41,10 +41,10 @@
     .stack{display:block !important;width:100% !important;box-sizing:border-box !important}
     .w400{width:100% !important}
     .card-pad{padding:24px 24px 0 24px !important}
-    .card-mid{padding:36px 24px 0 24px !important}
-    .card-foot{padding:24px 24px 22px 24px !important}
+    .card-foot{padding:0 24px 20px 24px !important}
+    .card-space{height:36px !important}
     .h1{font-size:30px !important;line-height:36px !important}
-    .num{font-size:20px !important;line-height:26px !important;letter-spacing:0.02em !important}
+    .amount{font-size:52px !important;line-height:56px !important}
     .col{padding:0 0 24px 0 !important}
   }
 </style>
@@ -78,7 +78,7 @@
       <td class="gutter" align="center" style="padding:48px 32px 0 32px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
         <p style="margin:0 0 14px 0;font-size:14px;line-height:20px;font-weight:300">Hi {{recipient_name}},</p>
         <h1 class="h1" style="margin:0;font-size:36px;line-height:42px;font-weight:600;letter-spacing:-0.015em">Your gift card</h1>
-        <p style="margin:16px 0 0 0;font-size:16px;line-height:24px;font-weight:300;max-width:400px">Order {{order_ref}} has been refunded onto a Debenhams gift card, as you chose. Keep this email safe &mdash; you&rsquo;ll need both numbers on the card to spend it.</p>
+        <p style="margin:16px 0 0 0;font-size:16px;line-height:24px;font-weight:300;max-width:400px">Order {{order_ref}} has been refunded onto a Debenhams gift card, as you chose. Keep this email safe &mdash; you&rsquo;ll need the card number and PIN to spend it.</p>
       </td>
     </tr>
     {{else}}
@@ -86,16 +86,15 @@
       <td class="gutter" align="center" style="padding:48px 32px 0 32px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
         <h1 class="h1" style="margin:0;font-size:36px;line-height:42px;font-weight:600;letter-spacing:-0.015em;max-width:440px">{{recipient_name}}, {{sender_name}} has sent you a gift</h1>
         <p style="margin:20px 0 0 0;font-size:16px;line-height:24px;font-weight:300;font-style:italic;max-width:400px">&ldquo;{{message}}&rdquo;</p>
-        <p style="margin:28px 0 0 0;font-size:16px;line-height:24px;font-weight:300;max-width:400px">Here&rsquo;s your gift card. Keep this email safe &mdash; you&rsquo;ll need both numbers on it to spend it.</p>
+        <p style="margin:28px 0 0 0;font-size:16px;line-height:24px;font-weight:300;max-width:400px">Here&rsquo;s your gift card. Keep this email safe &mdash; you&rsquo;ll need the card number and PIN to spend it.</p>
       </td>
     </tr>
     {{/if}}
 
     <!-- ===== the card =====
-         Flat #0F0F0F for every fascia, white ink, no gradient or shadow. The fascia accent lives on the button and links, not here.
-         Everything needed to redeem is on the card: amount, number, PIN, expiry. -->
+         v2.1 layout, recoloured: flat #0F0F0F for every fascia, white ink, no gradient or shadow. Fascia accent lives on the button and links. -->
     <tr>
-      <td class="gutter" align="center" style="padding:40px 32px 0 32px">
+      <td class="gutter" align="center" style="padding:40px 32px 8px 32px">
         <table role="presentation" class="w400" width="400" cellpadding="0" cellspacing="0" border="0" bgcolor="#0F0F0F" style="width:400px;max-width:400px;border-radius:10px;background-color:#0F0F0F">
           <tr>
             <td class="card-pad" style="padding:26px 28px 0 28px">
@@ -104,34 +103,40 @@
                   <td align="left" valign="middle" style="padding:0">
                     <img src="https://jakerayner96.github.io/debenhams-giftcard-email/assets/logos/debenhams-white.png" width="115" height="17" alt="Debenhams" style="display:block;width:115px;height:17px">
                   </td>
-                  <td align="right" valign="middle" style="padding:0 0 0 12px;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:28px;line-height:32px;font-weight:600;letter-spacing:-0.02em;color:#FFFFFF;white-space:nowrap">{{amount}}</td>
+                  <td align="right" valign="middle" style="padding:0;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:11px;line-height:16px;font-weight:600;letter-spacing:0.16em;color:#FFFFFF;text-transform:uppercase;white-space:nowrap">Gift card</td>
                 </tr>
               </table>
             </td>
           </tr>
+          <tr><td class="card-space" style="height:52px;line-height:52px;font-size:1px">&nbsp;</td></tr>
           <tr>
-            <td class="card-mid" align="left" style="padding:44px 28px 0 28px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#FFFFFF">
-              <p style="margin:0 0 4px 0;font-size:11px;line-height:16px;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;color:#FFFFFF">Card number</p>
-              <p class="num" style="margin:0;font-size:22px;line-height:28px;font-weight:600;letter-spacing:0.04em;color:#FFFFFF">{{card_number}}</p>
+            <td align="center" style="padding:0 28px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#FFFFFF">
+              <div class="amount" style="font-size:60px;line-height:64px;font-weight:600;letter-spacing:-0.03em;color:#FFFFFF">{{amount}}</div>
             </td>
           </tr>
+          <tr><td class="card-space" style="height:52px;line-height:52px;font-size:1px">&nbsp;</td></tr>
           <tr>
-            <td class="card-foot" style="padding:26px 28px 24px 28px">
+            <td class="card-foot" style="padding:0 28px 24px 28px">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                  <td align="left" valign="bottom" style="padding:0;font-family:Geologica,Arial,Helvetica,sans-serif;color:#FFFFFF">
-                    <p style="margin:0 0 4px 0;font-size:11px;line-height:16px;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;color:#FFFFFF">PIN</p>
-                    <p class="num" style="margin:0;font-size:22px;line-height:28px;font-weight:600;letter-spacing:0.04em;color:#FFFFFF">{{pin}}</p>
-                  </td>
-                  <td align="right" valign="bottom" style="padding:0 0 0 12px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#FFFFFF;white-space:nowrap">
-                    <p style="margin:0 0 4px 0;font-size:11px;line-height:16px;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;color:#FFFFFF">Use by</p>
-                    <p style="margin:0;font-size:14px;line-height:20px;font-weight:600;color:#FFFFFF">{{expiry_date}}</p>
-                  </td>
+                  <td align="left" valign="bottom" style="padding:0;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:11px;line-height:16px;font-weight:600;letter-spacing:0.14em;color:#FFFFFF;text-transform:uppercase">{{recipient_name}}</td>
+                  <td align="right" valign="bottom" style="padding:0 0 0 12px;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:12px;line-height:16px;font-weight:300;color:#FFFFFF;white-space:nowrap">Valid until <span style="font-weight:600">{{expiry_date}}</span></td>
                 </tr>
               </table>
             </td>
           </tr>
         </table>
+      </td>
+    </tr>
+
+    <!-- ===== number + PIN ===== -->
+    <tr>
+      <td class="gutter" align="center" style="padding:40px 32px 0 32px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
+        <p style="margin:0 0 6px 0;font-size:13px;line-height:18px;font-weight:300">Gift card number</p>
+        <p style="margin:0;font-size:22px;line-height:28px;font-weight:600;letter-spacing:0.04em">{{card_number}}</p>
+        <p style="margin:20px 0 6px 0;font-size:13px;line-height:18px;font-weight:300">PIN</p>
+        <p style="margin:0;font-size:22px;line-height:28px;font-weight:600;letter-spacing:0.04em">{{pin}}</p>
+        <p style="margin:24px 0 0 0;font-size:14px;line-height:20px;font-weight:300">Enter both at checkout to redeem.</p>
       </td>
     </tr>
 

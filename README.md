@@ -17,7 +17,7 @@ Redesign of the transactional "You've been sent a gift card!" email (sender `gif
 
 - **Debenhams mode of the group design system**, hard-coded because email can't consume CSS variables. Token map is in the comment at the top of the template: `text/primary #0F0F0F` (the only text colour on the page), `surface/action #7BE7D8` Primary Aqua for the button fill, `text/link #00787D` CTA Aqua for links and the PIN-notice rule, `border/subtle #E7E7E7` for hairlines.
 - **The card is black for every fascia.** Flat `#0F0F0F`, white ink, 10px corners, no gradient and no shadow (per Paul, 28 Sep 2026: they don't render reliably in mail clients). The fascia accent is carried by the Shop now button only, so a per-brand variant is a one-colour swap.
-- **Everything needed to redeem is on the card:** amount top-right, card number, PIN and Use by, laid out like a physical gift card. The number and PIN no longer sit in a separate block under the card.
+- **Card layout is unchanged from v2.1** (Jake, 28 Sep 2026: colour only): logo and "Gift card" label on top, amount centred at 60px, recipient name and "Valid until" on the bottom edge, 400×252 at ISO card proportion. Number and PIN sit centred and stacked under the card with "Enter both at checkout to redeem."; only the colour changed.
 - **Gift scenario order** follows Paul's mock: logo → "{{recipient_name}}, {{sender_name}} has sent you a gift" (sentence case, the standard h1) → the sender's message as body text in italics with quote marks → "Here's your gift card. Keep this email safe…" → card → button → Check your balance. His gift-box illustration is not used; the card is the hero. Refund is "Hi {{recipient_name}}, / Your gift card" and keeps its Order / Refunded to / Valid for fact list.
 - **Type:** Geologica Light 300 body, SemiBold 600 headings, role sizes from the foundations (36/42 h1 → 30 on small screens, 16 body, 14 labels, 12 caption). Google Fonts link for Apple Mail / iOS; Arial fallback elsewhere.
 - **The button is the DS primary button:** 50px, 16/24 SemiBold, 4px radius, uppercase on Primary Aqua with black label. **Check your balance** is a text link beneath it (`balance_url`).
@@ -26,7 +26,7 @@ Redesign of the transactional "You've been sent a gift card!" email (sender `gif
 - **One ink, two weights.** Everything on the page is `#0F0F0F`; labels are Light 300, values SemiBold 600. No grey text, no grey panels — hairlines only.
 - **No fascia strip.** The "Also spend it at" logo row was removed (Jake, 28 Sep 2026).
 - **Footer** adds "Sent on behalf of {{sender_name}}. Order reference {{order_ref}}." for the gift scenario so support has a handle.
-- **Radius:** 4 (buttons), 10 (card).
+- **Radius:** 4 (buttons), 10 (card — ISO ID-1 proportion 400×252, corner scaled from the real 3mm).
 - Not in scope: dark-mode colour swap (`color-scheme` locked to light), Outlook rounded corners (falls back to square), per-fascia variants (Debenhams only — swapping `#7BE7D8` on the button is the whole job now).
 
 ## Merge fields
@@ -37,7 +37,7 @@ Redesign of the transactional "You've been sent a gift card!" email (sender `gif
 
 - Original email: thread "You've been sent a gift card!" (10 Nov 2025 to Jake; 8 Sep 2026 refund case from Adam Kerr forwarded to Demi Adesanya). Screens in the brief.
 - Design system: github.com/jakerayner96/debenhamsgroup.design (`assets/ds/tokens.css`, `.context/07-foundations.md`).
-- Figma: none yet — code first, Figma downstream.
+- Figma: https://www.figma.com/design/XbDt0A59FmPQN3pj7RevaG (Debenhams Group drafts) — Gift and Refund frames at 600px, Gift card / Button / Debenhams logo components, local colour tokens. Built from the template; the template is the source of truth.
 
 ## Working on it
 
