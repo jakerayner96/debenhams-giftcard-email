@@ -22,14 +22,22 @@
       "hairline": "#E7E7E7",
       "bannerBg": "#F2F2F2",
       "satellites": [
-        "burton",
-        "coast",
-        "dorothyperkins",
+        "boohoo",
+        "boohooman",
+        "plt",
+        "karenmillen",
         "warehouse",
         "wallis",
+        "burton",
+        "principles",
+        "coast",
         "oasis",
-        "misspap"
-      ]
+        "dorothyperkins",
+        "misspap",
+        "nastygal",
+        "brandroom"
+      ],
+      "_satellites_note": "Every other fascia in DS picker order; fascias without a wordmark SVG are left out until one exists: debenhamsoutlet, maine, gorgeous, foreverunique, dsgnstudio, trainingdept"
     },
     {
       "id": "boohoo",
