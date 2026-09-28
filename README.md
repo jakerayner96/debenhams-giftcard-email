@@ -1,44 +1,41 @@
-# Debenhams gift card email — redesign
+# Group gift card email — redesign
 
-Redesign of the transactional "You've been sent a gift card!" email (sender `giftcard@orders.emaildebenhams.com`, Mailgun, template "GIFT CARD SEND V2"). Covers both scenarios the one template serves today: **refund to gift card** and **gift card sent by someone**.
+Redesign of the transactional "You've been sent a gift card!" email (Mailgun, template "GIFT CARD SEND V2"), built for **every fascia** from one source template. Covers both scenarios the template serves: **refund to gift card** and **gift card sent by someone**.
 
-**Live preview:** https://jakerayner96.github.io/debenhams-giftcard-email/ · **Template:** [`template/giftcard.html`](template/giftcard.html)
+**Live preview:** https://jakerayner96.github.io/debenhams-giftcard-email/ — brand tabs across the top, scenario and device on the left. · **Figma:** https://www.figma.com/design/XbDt0A59FmPQN3pj7RevaG (Debenhams frames; the template is the source of truth).
 
 ## What's here
 
 | Path | What |
 |---|---|
-| `index.html` | Preview shell — New vs Original, Refund vs Gift, 375 / 600 / 760, editable merge fields, copy rendered HTML. Serve over HTTP (`python3 -m http.server 3000`). |
-| `template/giftcard.html` | The email. Table layout, inline styles, 600px, MSO guards, Mailgun handlebars merge fields (`{{amount}}`, `{{#if is_refund}}…{{else}}…{{/if}}`). |
-| `assets/logos/` | 2× PNGs rendered from the design-system brand SVGs (`debenhamsgroup.design/assets/brands`). The template uses `debenhams.png` (header) and `debenhams-white.png` (card); the fascia marks are kept for reference. Referenced by absolute Pages URL in the template. |
-| `original/giftcard-original.html` | The Nov 2025 production email, extracted from the `.eml`, card number / PIN / recipient redacted, Outlook safelinks unwrapped. Images still load from the live CDN. |
+| `template/giftcard.src.html` | **The source.** Table layout, inline styles, 600px, MSO guards, Mailgun handlebars merge fields, `[[TOKEN]]` placeholders for the fascia values. Edit this. |
+| `brands.json` | One entry per fascia: font, weights, button case and radius, `surface/action`, `text/on-action`, `text/link`, `surface/page`, hairline, PIN-notice surface, domain. Values from `debenhamsgroup.design/assets/ds/tokens.css` (Colour Alignment set). |
+| `build.mjs` | `node build.mjs` → writes `template/<brand>.html` for every fascia. Generated files; don't hand-edit. |
+| `template/<brand>.html` | The 14 built emails (debenhams, boohoo, boohooman, plt, karenmillen, nastygal, misspap, coast, oasis, warehouse, wallis, burton, dorothyperkins, principles). Hand one to Mailgun per fascia. |
+| `tools/logos.py` | Renders the wordmarks in `assets/logos/svg/` (copies of the DS brand SVGs) to 2× PNGs: `<brand>.png` black for the header, `<brand>-white.png` for the card. Needs Chrome + Pillow. |
+| `index.html` | Preview shell. Brand tabs on top (the PLP/PDP prototype pattern), Refund / Gift, 375 / 600 / 760, editable merge fields, copy rendered HTML. Serve over HTTP (`python3 -m http.server 3000`). |
 
 ## Design decisions
 
-- **Debenhams mode of the group design system**, hard-coded because email can't consume CSS variables. Token map is in the comment at the top of the template: `text/primary #0F0F0F` (the only text colour on the page), `surface/action #7BE7D8` Primary Aqua for the button fill, `text/link #00787D` CTA Aqua for links and the PIN-notice rule, `border/subtle #E7E7E7` for hairlines.
-- **The card is black for every fascia.** Flat `#0F0F0F`, white ink, 10px corners, no gradient and no shadow (per Paul, 28 Sep 2026: they don't render reliably in mail clients). The fascia accent is carried by the Shop now button only, so a per-brand variant is a one-colour swap.
-- **Card layout is unchanged from v2.1** (Jake, 28 Sep 2026: colour only): logo and "Gift card" label on top, amount centred at 60px, recipient name and "Valid until" on the bottom edge, 400×252 at ISO card proportion. Number and PIN sit centred and stacked under the card with "Enter both at checkout to redeem."; only the colour changed.
-- **Gift scenario order** follows Paul's mock: logo → "{{recipient_name}}, {{sender_name}} has sent you a gift" (sentence case, the standard h1) → the sender's message as body text in italics with quote marks → "Here's your gift card. Keep this email safe…" → card → button → Check your balance. His gift-box illustration is not used; the card is the hero. Refund is "Hi {{recipient_name}}, / Your gift card" and keeps its Order / Refunded to / Valid for fact list.
-- **Type:** Geologica Light 300 body, SemiBold 600 headings, role sizes from the foundations (36/42 h1 → 30 on small screens, 16 body, 14 labels, 12 caption). Google Fonts link for Apple Mail / iOS; Arial fallback elsewhere.
-- **The button is the DS primary button:** 50px, 16/24 SemiBold, 4px radius, uppercase on Primary Aqua with black label. **Check your balance** is a text link beneath it (`balance_url`).
-- **Links are CTA Aqua `#00787D`, SemiBold, no underline.** Primary Aqua `#7BE7D8` is a button fill, not a text colour (fails AA on white); the design system's `text/link` role carries links, checks and focus.
-- **How to spend it** is two columns, Online / In the app, replacing the 01/02/03 steps. **Treat your PIN like cash** sits under it with a 3px CTA Aqua left rule — no grey panel.
-- **One ink, two weights.** Everything on the page is `#0F0F0F`; labels are Light 300, values SemiBold 600. No grey text, no grey panels — hairlines only.
-- **No fascia strip.** The "Also spend it at" logo row was removed (Jake, 28 Sep 2026).
-- **Footer** adds "Sent on behalf of {{sender_name}}. Order reference {{order_ref}}." for the gift scenario so support has a handle.
-- **Radius:** 4 (buttons), 10 (card — ISO ID-1 proportion 400×252, corner scaled from the real 3mm).
-- Not in scope: dark-mode colour swap (`color-scheme` locked to light), Outlook rounded corners (falls back to square), per-fascia variants (Debenhams only — swapping `#7BE7D8` on the button is the whole job now).
+- **One template, fascia by tokens.** The page is `surface/page`, text is `text/primary`, the button is `surface/action` with `text/on-action` ink at the fascia's radius and button case, links and the PIN-notice rule are `text/link`, hairlines `border/subtle`. Type is the fascia's `--font-family-base` with its regular / mid / strong weights (Google Fonts link for Apple Mail and iOS; Arial or Helvetica fallback elsewhere; Warehouse and Nasty Gal have no web font and render in the system Helvetica/Arial everywhere).
+- **The card is black for every fascia** (Paul, 28 Sep 2026): flat `#0F0F0F`, white ink, 400×252 ISO card proportion, 10px corners, no gradient, no shadow — they don't render reliably in mail clients. Layout is the v2.1 card: wordmark and "Gift card" label on top, amount centred at 60px, "Valid until" centred on the bottom edge. The number and PIN sit centred and stacked under the card.
+- **Order of elements** follows Paul's mock (28 Sep): wordmark → "Hi {{recipient_name}}," → headline → (gift) the sender's message in italics with quote marks and the sender's name → "Here's your gift card. You'll need the card number and PIN to spend it." → card → number + PIN → Shop now → Check your balance → (refund) Order / Refunded to / Valid for → Online / In the app → PIN notice → footer links. His gift-box illustration is not used; the card is the hero.
+- **Headlines:** refund "Your Gift Card"; gift "{{sender_name}} has sent you a Gift Card" (Jake, 28 Sep — sentence case, not caps).
+- **Links are `text/link`, SemiBold, no underline.** For Debenhams that's CTA Aqua `#00787D`; Primary Aqua `#7BE7D8` is the button fill only (fails AA as text on white).
+- **PIN notice** is the DS Messaging Banner, neutral: 4px `text/link` rule, `surface/media` panel, 4px radius, mid-weight lead.
+- **Footer** is the three links only. The "Sent on behalf of…" line and the registered-company line were dropped in the Figma pass (28 Sep); check legal is happy before send.
+- **No fascia strip.** The "Also spend it at" row was removed.
+- Not in scope: dark-mode colour swap (`color-scheme` locked to light), Outlook rounded corners (falls back to square).
 
 ## Merge fields
 
-`recipient_name` · `amount` · `card_number` · `pin` · `expiry_date` · `is_refund` · `order_ref` (both scenarios) · `sender_name` · `message` · `shop_url` · `balance_url` · `terms_url` · `privacy_url`
-
-## Source
-
-- Original email: thread "You've been sent a gift card!" (10 Nov 2025 to Jake; 8 Sep 2026 refund case from Adam Kerr forwarded to Demi Adesanya). Screens in the brief.
-- Design system: github.com/jakerayner96/debenhamsgroup.design (`assets/ds/tokens.css`, `.context/07-foundations.md`).
-- Figma: https://www.figma.com/design/XbDt0A59FmPQN3pj7RevaG (Debenhams Group drafts) — Gift and Refund frames at 600px, Gift card / Button / Debenhams logo components, local colour tokens. Built from the template; the template is the source of truth.
+`recipient_name` · `amount` · `card_number` · `pin` · `expiry_date` · `is_refund` · `order_ref` · `sender_name` · `message` · `shop_url` · `balance_url` · `terms_url` · `privacy_url`
 
 ## Working on it
 
-Single-file HTML, no build step. Edit `template/giftcard.html`, check it in `index.html`, push to `main` — GitHub Pages serves the repo root. Regenerate logo PNGs from the DS SVGs with headless Chrome at 2× if the marks change.
+Edit `template/giftcard.src.html` or `brands.json`, run `node build.mjs`, check in `index.html`, push to `main` — GitHub Pages serves the repo root. Re-run `python3 tools/logos.py` if a wordmark changes.
+
+## Source
+
+- Original email: thread "You've been sent a gift card!" (10 Nov 2025; 8 Sep 2026 refund case from Adam Kerr forwarded to Demi Adesanya). The extracted original was in `original/` until v3 — see git history.
+- Design system: github.com/jakerayner96/debenhamsgroup.design (`assets/ds/tokens.css`, `.context/07-foundations.md`).

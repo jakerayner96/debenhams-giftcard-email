@@ -3,18 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gift card email · Debenhams</title>
+<title>Gift card email · Debenhams Group</title>
 <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0F0F0F;--panel:#161616;--line:#262626;--ink:#F2F2F2;--ink-2:#9A9A9A;--ink-3:#6B6B6B;--aqua:#7BE7D8;--teal:#00787D}
+  :root{--bg:#0F0F0F;--panel:#161616;--line:#262626;--ink:#F2F2F2;--ink-2:#9A9A9A;--ink-3:#6B6B6B;--aqua:#7BE7D8}
   *{box-sizing:border-box}
   html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:300 14px/20px Geologica,ui-sans-serif,system-ui,sans-serif}
   a{color:var(--aqua)}
-  .app{display:grid;grid-template-columns:300px 1fr;height:100vh}
-  aside{border-right:1px solid var(--line);background:var(--panel);padding:24px 20px;overflow:auto;display:flex;flex-direction:column;gap:24px}
-  h1{margin:0;font-size:16px;line-height:22px;font-weight:600}
+  .app{display:grid;grid-template-rows:auto 1fr;height:100vh}
+  /* brand switcher across the top — same pattern as the PLP/PDP prototypes */
+  .topbar{display:flex;align-items:center;gap:16px;padding:10px 20px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:5}
+  .topbar h1{margin:0;font-size:14px;line-height:20px;font-weight:600;white-space:nowrap}
+  .topbar h1 small{display:block;font-size:11px;font-weight:300;color:var(--ink-3)}
+  .brand-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+  .brand-tab{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 8px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--ink-2);font:400 12px/16px Geologica,sans-serif;cursor:pointer;white-space:nowrap}
+  .brand-tab img{height:11px;width:auto;display:block;opacity:.85}
+  .brand-tab:hover{border-color:#3a3a3a;color:var(--ink)}
+  .brand-tab[aria-selected="true"]{background:#fff;border-color:#fff;color:#000;font-weight:600}
+  .brand-tab[aria-selected="true"] img{filter:invert(1);opacity:1}
+  .body{display:grid;grid-template-columns:300px 1fr;min-height:0}
+  aside{border-right:1px solid var(--line);background:var(--panel);padding:20px;overflow:auto;display:flex;flex-direction:column;gap:22px}
   .eyebrow{font-size:11px;line-height:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin:0 0 8px}
-  .sub{color:var(--ink-2);margin:4px 0 0}
   .chips{display:flex;flex-wrap:wrap;gap:6px}
   .chip{border:1px solid var(--line);background:transparent;color:var(--ink-2);border-radius:999px;padding:6px 12px;font:400 13px/16px Geologica,sans-serif;cursor:pointer}
   .chip:hover{border-color:#3a3a3a;color:var(--ink)}
@@ -33,38 +42,29 @@
   .bar{display:flex;align-items:center;gap:16px;padding:12px 24px;border-bottom:1px solid var(--line);color:var(--ink-2);font-size:12px}
   .bar b{color:var(--ink);font-weight:600}
   .bar .sp{flex:1}
-  .stage{flex:1;overflow:auto;padding:32px;display:flex;justify-content:center;align-items:flex-start;background:
-    radial-gradient(circle at 1px 1px,#1c1c1c 1px,transparent 1px) 0 0/24px 24px,var(--bg)}
+  .stage{flex:1;overflow:auto;padding:32px;display:flex;justify-content:center;align-items:flex-start;background:radial-gradient(circle at 1px 1px,#1c1c1c 1px,transparent 1px) 0 0/24px 24px,var(--bg)}
   .device{background:#fff;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px #2a2a2a;overflow:hidden;transition:width .2s}
   .device iframe{display:block;width:100%;height:1600px;border:0;background:#fff}
   .device.m{width:375px}.device.d{width:600px}.device.w{width:760px}
   .tok{display:grid;grid-template-columns:14px 1fr auto;gap:6px 10px;align-items:center;font-size:12px;color:var(--ink-2)}
   .tok i{width:14px;height:14px;border-radius:3px;border:1px solid #333;display:block}
   .tok code{color:var(--ink-3);font-size:11px}
-  @media (max-width:900px){.app{grid-template-columns:1fr;height:auto}aside{border-right:0;border-bottom:1px solid var(--line)}main{height:auto}.stage{padding:16px}}
+  @media (max-width:900px){.body{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line)}.app{height:auto}main{height:auto}.stage{padding:16px}.brand-tab span{display:none}}
 </style>
 </head>
 <body>
 <div class="app">
+  <header class="topbar">
+    <h1>Gift card email<small>Transactional · every fascia from one source template</small></h1>
+    <nav class="brand-tabs" id="brands" role="tablist" aria-label="Brand"></nav>
+  </header>
+  <div class="body">
   <aside>
-    <div>
-      <h1>Gift card email</h1>
-      <p class="sub">Debenhams · transactional · v2.2</p>
-    </div>
-
-    <div>
-      <p class="eyebrow">View</p>
-      <div class="chips" id="view">
-        <button class="chip on" data-v="new">New</button>
-        <button class="chip" data-v="old">Original (Nov 2025)</button>
-      </div>
-    </div>
-
     <div>
       <p class="eyebrow">Scenario</p>
       <div class="chips" id="scenario">
-        <button class="chip on" data-s="refund">Refund to gift card</button>
-        <button class="chip" data-s="gift">Sent by someone</button>
+        <button class="chip" data-s="refund">Refund to gift card</button>
+        <button class="chip on" data-s="gift">Sent by someone</button>
       </div>
     </div>
 
@@ -80,7 +80,7 @@
     <div>
       <p class="eyebrow">Merge fields</p>
       <label class="f"><span>recipient_name</span><input data-k="recipient_name" value="Adam"></label>
-      <label class="f"><span>amount</span><input data-k="amount" value="£40.25"></label>
+      <label class="f"><span>amount</span><input data-k="amount" value="£40.00"></label>
       <label class="f"><span>card_number</span><input data-k="card_number" value="VLBX-PTEB-D3X8-JYWD"></label>
       <label class="f"><span>pin</span><input data-k="pin" value="EN5V"></label>
       <label class="f"><span>expiry_date</span><input data-k="expiry_date" value="8 Feb 2027"></label>
@@ -90,41 +90,36 @@
     </div>
 
     <div class="btns">
-      <a class="bd pri" href="template/giftcard.html" target="_blank">Open template</a>
+      <a class="bd pri" id="open" href="template/debenhams.html" target="_blank">Open template</a>
       <button class="bd sec" id="copy">Copy rendered HTML</button>
-      <a class="bd sec" href="original/giftcard-original.html" target="_blank">Open original HTML</a>
       <a class="bd sec" href="https://github.com/jakerayner96/debenhams-giftcard-email" target="_blank">Repo</a>
     </div>
 
     <div>
-      <p class="eyebrow">Tokens in play</p>
-      <div class="tok">
-        <i style="background:#0F0F0F"></i><span>card · text/primary</span><code>#0F0F0F</code>
-        <i style="background:#7BE7D8"></i><span>surface/action · Primary Aqua · button fill</span><code>#7BE7D8</code>
-        <i style="background:#00787D"></i><span>text/link · CTA Aqua · links, PIN rule</span><code>#00787D</code>
-        <i style="background:#E7E7E7"></i><span>border/subtle</span><code>#E7E7E7</code>
-        <i style="background:#FFFFFF"></i><span>card ink</span><code>#FFFFFF</code>
-      </div>
-      <p class="note" style="margin-top:12px">Geologica 300 / 600 — hierarchy by weight, one ink #0F0F0F · buttons 16/24 SemiBold, 4px · flat black card, 10px, white ink, no gradients or shadows · gift message is body text in italics · links CTA Aqua #00787D SemiBold, no underline. Web font falls back to Arial in Gmail/Outlook.</p>
+      <p class="eyebrow">Fascia tokens in play</p>
+      <div class="tok" id="tokens"></div>
+      <p class="note" id="tokennote" style="margin-top:12px"></p>
     </div>
   </aside>
 
   <main>
-    <div class="bar"><b id="title">New · Refund · 600px</b><span class="sp"></span><span id="status">loading template…</span></div>
+    <div class="bar"><b id="title">Debenhams · Gift · 600px</b><span class="sp"></span><span id="status">loading…</span></div>
     <div class="stage"><div class="device d" id="device-frame"><iframe id="frame" title="Email preview"></iframe></div></div>
   </main>
+  </div>
 </div>
 
 <script>
 (function(){
-  const state={view:'new',scenario:'refund',device:'d'};
-  let tpl='';
+  const state={brand:'debenhams',scenario:'gift',device:'d'};
+  const tpls={}; let brands=[];
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
   const frame=$('#frame'), dev=$('#device-frame'), status=$('#status'), title=$('#title');
   const base=location.href.replace(/[^/]*$/,'');
+  const brand=()=>brands.find(b=>b.id===state.brand);
 
   function data(){
-    const d={shop_url:'https://www.debenhams.com/',balance_url:'https://www.debenhams.com/gift-card-balance',terms_url:'https://www.debenhams.com/help/gift-cards',privacy_url:'https://www.debenhams.com/privacy'};
+    const b=brand(), d={shop_url:`https://www.${b.domain}/`,balance_url:`https://www.${b.domain}/gift-card-balance`,terms_url:`https://www.${b.domain}/help/gift-cards`,privacy_url:`https://www.${b.domain}/privacy`};
     $$('[data-k]').forEach(el=>d[el.dataset.k]=el.value);
     d.is_refund=state.scenario==='refund';
     return d;
@@ -135,22 +130,38 @@
     let out=t,n=0; while(re.test(out)&&n++<20){re.lastIndex=0;out=out.replace(re,(m,k,a,b)=>d[k]?a:(b||''));}
     return out.replace(/\{\{(\w+)\}\}/g,(m,k)=>d[k]==null?'':String(d[k]));
   }
-  function html(){ return render(tpl,data()).split('https://jakerayner96.github.io/debenhams-giftcard-email/').join(base); }
+  function html(){ return render(tpls[state.brand],data()).split('https://jakerayner96.github.io/debenhams-giftcard-email/').join(base); }
+  function tokens(){
+    const b=brand();
+    const rows=[['surface/action · button',b.action],['text/on-action',b.onAction],['text/link · links, PIN rule',b.link],['card · all fascias','#0F0F0F'],['surface/page',b.page],['text/primary',b.ink],['border/subtle',b.hairline],['surface/media · PIN notice',b.bannerBg]];
+    $('#tokens').innerHTML=rows.map(([n,c])=>`<i style="background:${c}"></i><span>${n}</span><code>${c}</code>`).join('');
+    $('#tokennote').textContent=`${b.font.split(',')[0].replace(/'/g,'')} · light ${b.light} / mid ${b.mid} / strong ${b.strong} · button ${b.btn} ${b.ctaCase==='uppercase'?'uppercase':'sentence case'}, ${b.radius}px radius${b.gfont?'':' · no web font: system Helvetica/Arial in every client'}. Card is black for every fascia; the fascia lives in the button, links and type.`;
+  }
   function paint(){
+    const b=brand();
     $$('[data-only]').forEach(el=>el.style.display=el.dataset.only===state.scenario?'':'none');
     dev.className='device '+state.device;
-    title.textContent=(state.view==='new'?'New':'Original')+' · '+(state.scenario==='refund'?'Refund':'Gift')+' · '+({m:'375px',d:'600px',w:'760px'})[state.device];
-    if(state.view==='old'){frame.removeAttribute('srcdoc');frame.src='original/giftcard-original.html';status.textContent='Original template · images from the live CDN · card number and PIN redacted';return;}
-    frame.removeAttribute('src');frame.srcdoc=html();status.textContent='Rendered from template/giftcard.html with the merge fields on the left';
+    title.textContent=`${b.name} · ${state.scenario==='refund'?'Refund':'Gift'} · ${({m:'375px',d:'600px',w:'760px'})[state.device]}`;
+    $('#open').href=`template/${b.id}.html`;
+    $$('.brand-tab').forEach(t=>t.setAttribute('aria-selected',String(t.dataset.b===state.brand)));
+    tokens();
+    if(!tpls[state.brand]){status.textContent='loading template…';fetch(`template/${b.id}.html`).then(r=>r.text()).then(t=>{tpls[b.id]=t;paint();}).catch(()=>{status.textContent='Serve over HTTP (python3 -m http.server 3000) — fetch of the template failed on file://';});return;}
+    frame.srcdoc=html();status.textContent=`Rendered from template/${b.id}.html with the merge fields on the left`;
+    try{history.replaceState(null,'',`?brand=${b.id}&scenario=${state.scenario}`);}catch(e){}
   }
   function fit(){try{const h=frame.contentDocument&&frame.contentDocument.documentElement.scrollHeight;if(h)frame.style.height=Math.max(900,h+2)+'px';}catch(e){}}
   frame.addEventListener('load',()=>{fit();setTimeout(fit,400);setTimeout(fit,1200);});
-  $('#view').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;state.view=b.dataset.v;$$('#view .chip').forEach(c=>c.classList.toggle('on',c===b));paint();});
+  $('#brands').addEventListener('click',e=>{const b=e.target.closest('.brand-tab');if(!b)return;state.brand=b.dataset.b;paint();});
   $('#scenario').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;state.scenario=b.dataset.s;$$('#scenario .chip').forEach(c=>c.classList.toggle('on',c===b));paint();});
   $('#device').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;state.device=b.dataset.d;$$('#device .chip').forEach(c=>c.classList.toggle('on',c===b));paint();});
-  $$('[data-k]').forEach(el=>el.addEventListener('input',()=>{if(state.view==='new')paint();}));
-  $('#copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(render(tpl,data()));status.textContent='Rendered HTML copied (absolute Pages image URLs)';}catch(e){status.textContent='Copy blocked — open the template and copy from source';}});
-  fetch('template/giftcard.html').then(r=>r.text()).then(t=>{tpl=t;paint();}).catch(()=>{status.textContent='Serve over HTTP (python3 -m http.server 3000) — fetch of the template failed on file://';});
+  $$('[data-k]').forEach(el=>el.addEventListener('input',paint));
+  $('#copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(render(tpls[state.brand],data()));status.textContent='Rendered HTML copied (absolute Pages image URLs)';}catch(e){status.textContent='Copy blocked — open the template and copy from source';}});
+  fetch('brands.json').then(r=>r.json()).then(j=>{
+    brands=j.brands;
+    $('#brands').innerHTML=brands.map(b=>`<button class="brand-tab" role="tab" data-b="${b.id}" aria-selected="false"><img src="assets/logos/${b.id}-white.png" alt=""><span>${b.name}</span></button>`).join('');
+    const q=new URLSearchParams(location.search); if(brands.some(b=>b.id===q.get('brand')))state.brand=q.get('brand'); if(['gift','refund'].includes(q.get('scenario'))){state.scenario=q.get('scenario');$$('#scenario .chip').forEach(c=>c.classList.toggle('on',c.dataset.s===state.scenario));}
+    paint();
+  }).catch(()=>{status.textContent='Serve over HTTP (python3 -m http.server 3000) — brands.json failed to load on file://';});
 })();
 </script>
 </body>
