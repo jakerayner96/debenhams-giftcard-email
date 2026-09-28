@@ -13,6 +13,26 @@ const logoDims = id => {
   return { w, h, cw: Math.round(w * 0.85), ch: Math.round(h * 0.85) };
 };
 const today = new Date().toISOString().slice(0, 10);
+const byId = Object.fromEntries(brands.map(b => [b.id, b]));
+// "Also spend it at" — satellite wordmarks at 14px high (12px for the very wide ones), black on the page
+const satellites = b => {
+  if (!b.satellites || !b.satellites.length) return '';
+  const imgs = b.satellites.map(id => {
+    const d = logoDims(id); let h = 14, w = Math.round(d.w * 14 / d.h); if (w > 80) { w = 80; h = Math.round(d.h * 80 / d.w); }
+    return `        <img src="${BASE}${id}.png" width="${w}" height="${h}" alt="${byId[id].name}" style="display:inline-block;width:${w}px;height:${h}px;margin:8px 12px;vertical-align:middle">`;
+  }).join('\n');
+  return `    <!-- ===== spend across the group — Debenhams satellites ===== -->
+    <tr>
+      <td class="gutter" align="center" style="padding:40px 32px 0 32px;font-family:${b.font};font-size:12px;line-height:16px;font-weight:${b.light};color:${b.ink}">Also spend it at</td>
+    </tr>
+    <tr>
+      <td class="gutter" align="center" style="padding:8px 20px 0 20px;font-size:0;line-height:0">
+${imgs}
+      </td>
+    </tr>
+
+`;
+};
 for (const b of brands) {
   const d = logoDims(b.id);
   const map = {
@@ -23,6 +43,7 @@ for (const b of brands) {
     HAIRLINE: b.hairline, BANNER_BG: b.bannerBg, CARD: '#0F0F0F', CARD_INK: '#FFFFFF',
     LOGO_BLACK: `${BASE}${b.id}.png`, LOGO_WHITE: `${BASE}${b.id}-white.png`,
     LOGO_W: d.w, LOGO_H: d.h, CARD_LOGO_W: d.cw, CARD_LOGO_H: d.ch,
+    SATELLITES: satellites(b),
   };
   let out = src.replace(/\[\[([A-Z_]+)\]\]/g, (m, k) => { if (!(k in map)) throw new Error(`no value for ${m}`); return String(map[k]); });
   fs.writeFileSync(`template/${b.id}.html`, out);
