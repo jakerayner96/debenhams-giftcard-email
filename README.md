@@ -11,8 +11,8 @@ Redesign of the transactional "You've been sent a gift card!" email (Mailgun, te
 | `template/giftcard.src.html` | **The source.** Table layout, inline styles, 600px, MSO guards, Mailgun handlebars merge fields, `[[TOKEN]]` placeholders for the fascia values. Edit this. |
 | `brands.json` | One entry per fascia, in the order of the brand picker on https://jakerayner96.github.io/debenhamsgroup.design/ (21 fascias, DSGN Studio, Outlet and The Brand Room included): font, weights, button case and radius, `surface/action`, `text/on-action`, `text/link`, `surface/page`, hairline, PIN-notice surface, domain. Values from `debenhamsgroup.design/assets/ds/tokens.css` (Colour Alignment set). |
 | `build.mjs` | `node build.mjs` → writes `template/<brand>.html` for every fascia. Generated files; don't hand-edit. |
-| `template/<brand>.html` | The 21 built emails, one per fascia in the DS picker. Hand one to Mailgun per fascia. Fascias the DS has no wordmark SVG for (Debenhams Outlet, Maine, Gorgeous, Forever Unique, DSGN Studio, Training Dept) get a text wordmark in the fascia's strong weight. |
-| `tools/logos.py` | Renders the wordmarks in `assets/logos/svg/` (copies of the DS brand SVGs) to 2× PNGs: `<brand>.png` black for the header, `<brand>-white.png` for the card. Needs Chrome + Pillow. |
+| `template/<brand>.html` | The built emails, one per active fascia in the DS picker. Hand one to Mailgun per fascia. Maine, Gorgeous, Forever Unique and Training Dept are `disabled` in `brands.json`: greyed out in the selector, not clickable, no template built (Jake, 28 Sep 2026). A fascia with no wordmark SVG gets a text wordmark in its strong weight. |
+| `tools/logos.py` | Renders the wordmarks in `assets/logos/svg/` (copies of the DS brand SVGs, plus the Outlet and DSGN marks from the DS Figma file) to 2× PNGs: `<brand>.png` black for the header, `<brand>-white.png` for the card. Needs Chrome + Pillow. |
 | `index.html` | Preview shell. Brand tabs on top (the PLP/PDP prototype pattern), Refund / Gift, 375 / 600 / 760, editable merge fields, copy rendered HTML. Serve over HTTP (`python3 -m http.server 3000`). |
 
 ## Design decisions
@@ -24,7 +24,7 @@ Redesign of the transactional "You've been sent a gift card!" email (Mailgun, te
 - **Links are `text/link`, SemiBold, no underline.** For Debenhams that's CTA Aqua `#00787D`; Primary Aqua `#7BE7D8` is the button fill only (fails AA as text on white).
 - **PIN notice** is the DS Messaging Banner, neutral: 4px `text/link` rule, `surface/media` panel, 4px radius, mid-weight lead.
 - **Footer** is the three links only. The "Sent on behalf of…" line and the registered-company line were dropped in the Figma pass (28 Sep); check legal is happy before send.
-- **Debenhams satellites.** The Debenhams templates carry an "Also spend it at" row above the footer with every other fascia's wordmark in DS picker order, driven by `satellites` on the Debenhams entry in `brands.json`. Fascias with no wordmark SVG on the DS site (Debenhams Outlet, Maine, Gorgeous, Forever Unique, DSGN Studio, Training Dept) are left out of the row until one exists. No other fascia has the row.
+- **Debenhams satellites.** The Debenhams templates carry an "Also spend it at" row above the footer with every other fascia's wordmark in DS picker order, driven by `satellites` on the Debenhams entry in `brands.json`. Disabled fascias and any without a wordmark SVG are left out of the row. Debenhams Outlet and DSGN Studio marks were exported from the Debenhams Design System Figma file (nodes 13256-1275 and 12800-33027) into `assets/logos/svg/`. No other fascia has the row.
 - Not in scope: dark-mode colour swap (`color-scheme` locked to light), Outlook rounded corners (falls back to square).
 
 ## Merge fields

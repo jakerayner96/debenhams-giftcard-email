@@ -19,7 +19,7 @@ const byId = Object.fromEntries(brands.map(b => [b.id, b]));
 // "Also spend it at" — satellite wordmarks at 14px high (12px for the very wide ones), black on the page
 const satellites = b => {
   if (!b.satellites || !b.satellites.length) return '';
-  const imgs = b.satellites.map(id => {
+  const imgs = b.satellites.filter(id => !byId[id].disabled && hasSvg(id)).map(id => {
     const d = logoDims(id); let h = 14, w = Math.round(d.w * 14 / d.h); if (w > 80) { w = 80; h = Math.round(d.h * 80 / d.w); }
     return `        <img src="${BASE}${id}.png" width="${w}" height="${h}" alt="${byId[id].name}" style="display:inline-block;width:${w}px;height:${h}px;margin:8px 12px;vertical-align:middle">`;
   }).join('\n');
@@ -36,6 +36,7 @@ ${imgs}
 `;
 };
 for (const b of brands) {
+  if (b.disabled) { try { fs.unlinkSync(`template/${b.id}.html`); } catch {} console.log(`template/${b.id}.html — skipped (disabled)`); continue; }
   const d = logoDims(b.id);
   const map = {
     BRAND: b.name, BRAND_ID: b.id, DOMAIN: b.domain, DATE: today,

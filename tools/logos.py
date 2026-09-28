@@ -16,6 +16,8 @@ def dims(b):
     return svg, w, h
 out = {}
 for b in brands:
+    if b.get('disabled'):
+        out[b['id']] = 'disabled'; continue
     if not (ROOT / 'assets/logos/svg' / f"{b['id']}.svg").exists():
         out[b['id']] = 'no svg on the DS site — text wordmark'; continue
     svg, w, h = dims(b)

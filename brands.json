@@ -27,17 +27,23 @@
         "plt",
         "karenmillen",
         "warehouse",
+        "debenhamsoutlet",
         "wallis",
         "burton",
         "principles",
         "coast",
         "oasis",
         "dorothyperkins",
+        "maine",
+        "gorgeous",
         "misspap",
         "nastygal",
+        "foreverunique",
+        "dsgnstudio",
+        "trainingdept",
         "brandroom"
       ],
-      "_satellites_note": "Every other fascia in DS picker order; fascias without a wordmark SVG are left out until one exists: debenhamsoutlet, maine, gorgeous, foreverunique, dsgnstudio, trainingdept"
+      "_satellites_note": "Every other fascia in DS picker order; build.mjs drops disabled fascias and any without a wordmark SVG."
     },
     {
       "id": "boohoo",
@@ -310,7 +316,9 @@
       "page": "#FFFFFF",
       "ink": "#0F0F0F",
       "hairline": "#E7E7E7",
-      "bannerBg": "#F2F2F2"
+      "bannerBg": "#F2F2F2",
+      "disabled": true,
+      "_disabled_note": "Shown greyed out in the selector, not clickable; no template built (Jake, 28 Sep 2026)."
     },
     {
       "id": "gorgeous",
@@ -331,7 +339,9 @@
       "page": "#FFFFFF",
       "ink": "#0F0F0F",
       "hairline": "#E7E7E7",
-      "bannerBg": "#F2F2F2"
+      "bannerBg": "#F2F2F2",
+      "disabled": true,
+      "_disabled_note": "Shown greyed out in the selector, not clickable; no template built (Jake, 28 Sep 2026)."
     },
     {
       "id": "misspap",
@@ -395,7 +405,9 @@
       "page": "#FFFFFF",
       "ink": "#0F0F0F",
       "hairline": "#E7E7E7",
-      "bannerBg": "#F2F2F2"
+      "bannerBg": "#F2F2F2",
+      "disabled": true,
+      "_disabled_note": "Shown greyed out in the selector, not clickable; no template built (Jake, 28 Sep 2026)."
     },
     {
       "id": "dsgnstudio",
@@ -438,7 +450,9 @@
       "ink": "#0F0F0F",
       "hairline": "#E7E7E7",
       "bannerBg": "#F2F2F2",
-      "_note": "DS surface/page is #000000; the email keeps a white page because text/primary and text/link are near-black."
+      "_note": "DS surface/page is #000000; the email keeps a white page because text/primary and text/link are near-black.",
+      "disabled": true,
+      "_disabled_note": "Shown greyed out in the selector, not clickable; no template built (Jake, 28 Sep 2026)."
     },
     {
       "id": "brandroom",

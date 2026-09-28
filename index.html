@@ -18,6 +18,8 @@
   .brand-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
   .brand-tab{display:inline-flex;align-items:center;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--ink-2);font:400 12px/16px Geologica,sans-serif;cursor:pointer;white-space:nowrap}
   .brand-tab:hover{border-color:#3a3a3a;color:var(--ink)}
+  .brand-tab[disabled]{opacity:.35;cursor:not-allowed;color:var(--ink-3)}
+  .brand-tab[disabled]:hover{border-color:var(--line);color:var(--ink-3)}
   .brand-tab[aria-selected="true"]{background:#fff;border-color:#fff;color:#000;font-weight:600}
   .body{display:grid;grid-template-columns:300px 1fr;min-height:0}
   aside{border-right:1px solid var(--line);background:var(--panel);padding:20px;overflow:auto;display:flex;flex-direction:column;gap:22px}
@@ -149,15 +151,15 @@
   }
   function fit(){try{const h=frame.contentDocument&&frame.contentDocument.documentElement.scrollHeight;if(h)frame.style.height=Math.max(900,h+2)+'px';}catch(e){}}
   frame.addEventListener('load',()=>{fit();setTimeout(fit,400);setTimeout(fit,1200);});
-  $('#brands').addEventListener('click',e=>{const b=e.target.closest('.brand-tab');if(!b)return;state.brand=b.dataset.b;paint();});
+  $('#brands').addEventListener('click',e=>{const b=e.target.closest('.brand-tab');if(!b||b.disabled)return;state.brand=b.dataset.b;paint();});
   $('#scenario').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;state.scenario=b.dataset.s;$$('#scenario .chip').forEach(c=>c.classList.toggle('on',c===b));paint();});
   $('#device').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;state.device=b.dataset.d;$$('#device .chip').forEach(c=>c.classList.toggle('on',c===b));paint();});
   $$('[data-k]').forEach(el=>el.addEventListener('input',paint));
   $('#copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(render(tpls[state.brand],data()));status.textContent='Rendered HTML copied (absolute Pages image URLs)';}catch(e){status.textContent='Copy blocked — open the template and copy from source';}});
   fetch('brands.json').then(r=>r.json()).then(j=>{
     brands=j.brands;
-    $('#brands').innerHTML=brands.map(b=>`<button class="brand-tab" role="tab" data-b="${b.id}" aria-selected="false">${b.name}</button>`).join('');
-    const q=new URLSearchParams(location.search); if(brands.some(b=>b.id===q.get('brand')))state.brand=q.get('brand'); if(['gift','refund'].includes(q.get('scenario'))){state.scenario=q.get('scenario');$$('#scenario .chip').forEach(c=>c.classList.toggle('on',c.dataset.s===state.scenario));}
+    $('#brands').innerHTML=brands.map(b=>`<button class="brand-tab" role="tab" data-b="${b.id}" aria-selected="false"${b.disabled?' disabled aria-disabled="true" title="Not in scope yet"':''}>${b.name}</button>`).join('');
+    const q=new URLSearchParams(location.search); if(brands.some(b=>b.id===q.get('brand')&&!b.disabled))state.brand=q.get('brand'); if(['gift','refund'].includes(q.get('scenario'))){state.scenario=q.get('scenario');$$('#scenario .chip').forEach(c=>c.classList.toggle('on',c.dataset.s===state.scenario));}
     paint();
   }).catch(()=>{status.textContent='Serve over HTTP (python3 -m http.server 3000) — brands.json failed to load on file://';});
 })();
