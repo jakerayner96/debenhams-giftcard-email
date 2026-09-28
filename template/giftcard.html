@@ -13,9 +13,10 @@
     text/primary   #0F0F0F  — the only text colour on the page; hierarchy is weight (Light 300 vs SemiBold 600), not grey
     surface/page   #FFFFFF     border/subtle #E7E7E7 (hairlines only)
     card           #0F0F0F flat, white ink — brand-neutral, identical for every fascia. No gradients, no shadows (mail clients).
-    surface/action #7BE7D8 — the fascia accent: the Shop now button, text links and the PIN-notice rule. Swap this per fascia.
+    surface/action #7BE7D8 Primary Aqua — the Shop now button fill only (black ink). Swap per fascia.
+    text/link      #00787D CTA Aqua — every text link (SemiBold, no underline) and the PIN-notice rule. Primary Aqua is not a text colour.
     radius/default 4 (buttons)  10px card
-    type: Geologica · Light 300 · SemiBold 600 · button 16/24 SemiBold uppercase · gift message Georgia italic
+    type: Geologica · Light 300 · SemiBold 600 · button 16/24 SemiBold uppercase · gift message = body text, italic, in quotes
   Merge fields (Mailgun handlebars): recipient_name, amount, card_number, pin, expiry_date,
     is_refund, order_ref, sender_name, message, shop_url, balance_url, terms_url, privacy_url
 -->
@@ -43,7 +44,6 @@
     .card-mid{padding:36px 24px 0 24px !important}
     .card-foot{padding:24px 24px 22px 24px !important}
     .h1{font-size:30px !important;line-height:36px !important}
-    .h1-gift{font-size:28px !important;line-height:34px !important}
     .num{font-size:20px !important;line-height:26px !important;letter-spacing:0.02em !important}
     .col{padding:0 0 24px 0 !important}
   }
@@ -77,22 +77,22 @@
     <tr>
       <td class="gutter" align="center" style="padding:48px 32px 0 32px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
         <p style="margin:0 0 14px 0;font-size:14px;line-height:20px;font-weight:300">Hi {{recipient_name}},</p>
-        <h1 class="h1" style="margin:0;font-size:36px;line-height:42px;font-weight:600;letter-spacing:-0.015em">Your refund,<br>ready to spend</h1>
+        <h1 class="h1" style="margin:0;font-size:36px;line-height:42px;font-weight:600;letter-spacing:-0.015em">Your gift card</h1>
         <p style="margin:16px 0 0 0;font-size:16px;line-height:24px;font-weight:300;max-width:400px">Order {{order_ref}} has been refunded onto a Debenhams gift card, as you chose. Keep this email safe &mdash; you&rsquo;ll need both numbers on the card to spend it.</p>
       </td>
     </tr>
     {{else}}
     <tr>
       <td class="gutter" align="center" style="padding:48px 32px 0 32px;font-family:Geologica,Arial,Helvetica,sans-serif;color:#0F0F0F">
-        <h1 class="h1 h1-gift" style="margin:0;font-size:34px;line-height:40px;font-weight:600;letter-spacing:0.01em;text-transform:uppercase;max-width:480px">{{recipient_name}}, {{sender_name}} has sent you a gift</h1>
-        <p style="margin:24px 0 0 0;font-family:Georgia,'Times New Roman',Times,serif;font-style:italic;font-size:20px;line-height:30px;font-weight:400;max-width:440px">&ldquo;{{message}}&rdquo;</p>
+        <h1 class="h1" style="margin:0;font-size:36px;line-height:42px;font-weight:600;letter-spacing:-0.015em;max-width:440px">{{recipient_name}}, {{sender_name}} has sent you a gift</h1>
+        <p style="margin:20px 0 0 0;font-size:16px;line-height:24px;font-weight:300;font-style:italic;max-width:400px">&ldquo;{{message}}&rdquo;</p>
         <p style="margin:28px 0 0 0;font-size:16px;line-height:24px;font-weight:300;max-width:400px">Here&rsquo;s your gift card. Keep this email safe &mdash; you&rsquo;ll need both numbers on it to spend it.</p>
       </td>
     </tr>
     {{/if}}
 
     <!-- ===== the card =====
-         Flat #0F0F0F for every fascia, white ink, no gradient or shadow. The fascia accent lives on the button, not here.
+         Flat #0F0F0F for every fascia, white ink, no gradient or shadow. The fascia accent lives on the button and links, not here.
          Everything needed to redeem is on the card: amount, number, PIN, expiry. -->
     <tr>
       <td class="gutter" align="center" style="padding:40px 32px 0 32px">
@@ -149,7 +149,7 @@
     </tr>
     <tr>
       <td class="gutter" align="center" style="padding:20px 32px 0 32px;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;font-weight:600">
-        <a href="{{balance_url}}" style="color:#7BE7D8;text-decoration:none">Check your balance</a>
+        <a href="{{balance_url}}" style="color:#00787D;text-decoration:none">Check your balance</a>
       </td>
     </tr>
 
@@ -171,7 +171,7 @@
             <td align="right" style="padding:12px 0 0 0;font-size:14px;line-height:20px;font-weight:600">90 days</td>
           </tr>
         </table>
-        <p style="margin:20px 0 0 0;font-size:13px;line-height:19px;font-weight:300;max-width:400px">This refund method applies to all eligible returns from this order. More in our <a href="{{shop_url}}help/returns" style="color:#7BE7D8;text-decoration:none;font-weight:600">returns FAQs</a>.</p>
+        <p style="margin:20px 0 0 0;font-size:13px;line-height:19px;font-weight:300;max-width:400px">This refund method applies to all eligible returns from this order. More in our <a href="{{shop_url}}help/returns" style="color:#00787D;text-decoration:none;font-weight:600">returns FAQs</a>.</p>
       </td>
     </tr>
     {{/if}}
@@ -200,33 +200,17 @@
       <td class="gutter" style="padding:32px 32px 0 32px">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
-            <td style="padding:2px 0 2px 16px;border-left:3px solid #7BE7D8;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;font-weight:300;color:#0F0F0F"><span style="font-weight:600">Treat your PIN like cash.</span> We&rsquo;ll never ask for it by phone, text or email, and we can&rsquo;t replace a gift card that&rsquo;s been spent by someone else.</td>
+            <td style="padding:2px 0 2px 16px;border-left:3px solid #00787D;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;font-weight:300;color:#0F0F0F"><span style="font-weight:600">Treat your PIN like cash.</span> We&rsquo;ll never ask for it by phone, text or email, and we can&rsquo;t replace a gift card that&rsquo;s been spent by someone else.</td>
           </tr>
         </table>
       </td>
     </tr>
 
-    <!-- ===== spend across the group ===== -->
-    <tr>
-      <td class="gutter" align="center" style="padding:40px 32px 0 32px;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:12px;line-height:16px;font-weight:300;color:#0F0F0F">Also spend it at</td>
-    </tr>
-    <tr>
-      <td class="gutter" align="center" style="padding:8px 20px 0 20px;font-size:0;line-height:0">
-        <img src="https://jakerayner96.github.io/debenhams-giftcard-email/assets/logos/burton.png" width="36" height="15" alt="Burton" style="display:inline-block;width:36px;height:15px;margin:8px 12px;vertical-align:middle">
-        <img src="https://jakerayner96.github.io/debenhams-giftcard-email/assets/logos/coast.png" width="57" height="14" alt="Coast" style="display:inline-block;width:57px;height:14px;margin:8px 12px;vertical-align:middle">
-        <img src="https://jakerayner96.github.io/debenhams-giftcard-email/assets/logos/dorothyperkins.png" width="25" height="14" alt="Dorothy Perkins" style="display:inline-block;width:25px;height:14px;margin:8px 12px;vertical-align:middle">
-        <img src="https://jakerayner96.github.io/debenhams-giftcard-email/assets/logos/warehouse.png" width="77" height="7" alt="Warehouse" style="display:inline-block;width:77px;height:7px;margin:8px 12px;vertical-align:middle">
-        <img src="https://jakerayner96.github.io/debenhams-giftcard-email/assets/logos/wallis.png" width="51" height="13" alt="Wallis" style="display:inline-block;width:51px;height:13px;margin:8px 12px;vertical-align:middle">
-        <img src="https://jakerayner96.github.io/debenhams-giftcard-email/assets/logos/oasis.png" width="53" height="12" alt="Oasis" style="display:inline-block;width:53px;height:12px;margin:8px 12px;vertical-align:middle">
-        <img src="https://jakerayner96.github.io/debenhams-giftcard-email/assets/logos/misspap.png" width="38" height="12" alt="Misspap" style="display:inline-block;width:38px;height:12px;margin:8px 12px;vertical-align:middle">
-      </td>
-    </tr>
-
     <!-- ===== footer ===== -->
     <tr>
-      <td class="gutter" align="center" style="padding:36px 32px 44px 32px;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:12px;line-height:18px;font-weight:300;color:#0F0F0F">
+      <td class="gutter" align="center" style="padding:44px 32px 44px 32px;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:12px;line-height:18px;font-weight:300;color:#0F0F0F">
         {{#if is_refund}}{{else}}<p style="margin:0 0 10px 0">Sent on behalf of {{sender_name}}. Order reference {{order_ref}}.</p>{{/if}}
-        <p style="margin:0 0 10px 0;font-weight:600"><a href="{{terms_url}}" style="color:#7BE7D8;text-decoration:none">Gift card terms &amp; conditions</a>&nbsp;&nbsp;<span style="font-weight:300;color:#0F0F0F">·</span>&nbsp;&nbsp;<a href="{{privacy_url}}" style="color:#7BE7D8;text-decoration:none">Privacy policy</a>&nbsp;&nbsp;<span style="font-weight:300;color:#0F0F0F">·</span>&nbsp;&nbsp;<a href="mailto:customerservices@debenhams.co.uk" style="color:#7BE7D8;text-decoration:none">Help</a></p>
+        <p style="margin:0 0 10px 0;font-weight:600"><a href="{{terms_url}}" style="color:#00787D;text-decoration:none">Gift card terms &amp; conditions</a>&nbsp;&nbsp;<span style="font-weight:300;color:#0F0F0F">·</span>&nbsp;&nbsp;<a href="{{privacy_url}}" style="color:#00787D;text-decoration:none">Privacy policy</a>&nbsp;&nbsp;<span style="font-weight:300;color:#0F0F0F">·</span>&nbsp;&nbsp;<a href="mailto:customerservices@debenhams.co.uk" style="color:#00787D;text-decoration:none">Help</a></p>
         <p style="margin:0">This is not a marketing email. Debenhams Brands Limited. Registered company number: 113135555</p>
       </td>
     </tr>
