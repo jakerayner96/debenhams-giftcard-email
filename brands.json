@@ -22,28 +22,89 @@
       "hairline": "#E7E7E7",
       "bannerBg": "#F2F2F2",
       "satellites": [
-        "boohoo",
-        "boohooman",
-        "plt",
-        "karenmillen",
-        "warehouse",
-        "debenhamsoutlet",
-        "wallis",
-        "burton",
-        "principles",
-        "coast",
-        "oasis",
-        "dorothyperkins",
-        "maine",
-        "gorgeous",
-        "misspap",
-        "nastygal",
-        "foreverunique",
-        "dsgnstudio",
-        "trainingdept",
-        "brandroom"
+        {
+          "id": "boohoo",
+          "w": 68,
+          "h": 12
+        },
+        {
+          "id": "boohooman",
+          "w": 105,
+          "h": 11
+        },
+        {
+          "id": "plt",
+          "w": 83,
+          "h": 20
+        },
+        {
+          "id": "karenmillen",
+          "w": 104,
+          "h": 9
+        },
+        {
+          "id": "warehouse",
+          "w": 118,
+          "h": 10
+        },
+        {
+          "id": "debenhamsoutlet",
+          "w": 50,
+          "h": 18
+        },
+        {
+          "id": "brandroom",
+          "w": 120,
+          "h": 9
+        },
+        {
+          "id": "principles",
+          "w": 80,
+          "h": 9
+        },
+        {
+          "id": "coast",
+          "w": 50,
+          "h": 12
+        },
+        {
+          "id": "oasis",
+          "w": 53,
+          "h": 12
+        },
+        {
+          "id": "wallis",
+          "w": 72,
+          "h": 18
+        },
+        {
+          "id": "dorothyperkins",
+          "w": 21,
+          "h": 12
+        },
+        {
+          "id": "burton",
+          "w": 50,
+          "h": 21
+        },
+        {
+          "id": "misspap",
+          "w": 39,
+          "h": 12
+        },
+        {
+          "id": "nastygal",
+          "w": 43,
+          "h": 14
+        },
+        {
+          "id": "dsgnstudio",
+          "w": 97,
+          "h": 11
+        }
       ],
-      "_satellites_note": "Every other fascia in DS picker order; build.mjs drops disabled fascias and any without a wordmark SVG."
+      "_satellites_note": "Mirrors the Figma component 11:202 (Jake, 28 Sep 2026): label copy, order and per-mark sizes set by eye there; 36px gap. build.mjs drops disabled fascias and any without a wordmark SVG.",
+      "satellitesLabel": "Your gift card can also be used at"
     },
     {
       "id": "boohoo",
