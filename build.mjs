@@ -26,7 +26,7 @@ const satellites = b => {
   const imgs = items.map(s => {
     let { w, h } = s;
     if (!w || !h) { const d = logoDims(s.id); h = 14; w = Math.round(d.w * 14 / d.h); if (w > 80) { w = 80; h = Math.round(d.h * 80 / d.w); } }
-    return `        <img src="${BASE}${s.id}.png" width="${w}" height="${h}" alt="${byId[s.id].name}" style="display:inline-block;width:${w}px;height:${h}px;margin:8px 18px;vertical-align:middle">`;
+    return `        <img src="${BASE}${s.id}.png" width="${w}" height="${h}" alt="${byId[s.id].name}" style="display:inline-block;width:${w}px;height:${h}px;margin:12px 18px;vertical-align:middle">`;
   }).join('\n');
   const label = b.satellitesLabel || 'Also spend it at';
   return `    <!-- ===== spend across the group — Debenhams satellites (mirrors the Figma component) ===== -->
@@ -34,7 +34,7 @@ const satellites = b => {
       <td class="gutter" align="center" style="padding:40px 32px 0 32px;font-family:${b.font};font-size:12px;line-height:16px;font-weight:${b.light};color:${b.ink}">${label}</td>
     </tr>
     <tr>
-      <td class="gutter" align="center" style="padding:0 14px 0 14px;font-size:0;line-height:0">
+      <td class="gutter" align="center" style="padding:8px 38px 0 38px;font-size:0;line-height:0">
 ${imgs}
       </td>
     </tr>

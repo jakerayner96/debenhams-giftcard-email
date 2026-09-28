@@ -64,13 +64,13 @@
         },
         {
           "id": "coast",
-          "w": 50,
-          "h": 12
+          "w": 58,
+          "h": 14
         },
         {
           "id": "oasis",
-          "w": 53,
-          "h": 12
+          "w": 57,
+          "h": 13
         },
         {
           "id": "wallis",
@@ -79,8 +79,8 @@
         },
         {
           "id": "dorothyperkins",
-          "w": 21,
-          "h": 12
+          "w": 29,
+          "h": 16
         },
         {
           "id": "burton",
@@ -89,12 +89,7 @@
         },
         {
           "id": "misspap",
-          "w": 39,
-          "h": 12
-        },
-        {
-          "id": "nastygal",
-          "w": 43,
+          "w": 45,
           "h": 14
         },
         {
@@ -103,7 +98,7 @@
           "h": 11
         }
       ],
-      "_satellites_note": "Mirrors the Figma component 11:202 (Jake, 28 Sep 2026): label copy, order and per-mark sizes set by eye there; 36px gap. build.mjs drops disabled fascias and any without a wordmark SVG.",
+      "_satellites_note": "Mirrors Figma node 13-527 / component 11-202 (Jake, 28 Sep 2026): label, order, per-mark sizes; row padding 12/24, 36px between marks, 24px between lines.",
       "satellitesLabel": "Your gift card can also be used at"
     },
     {
@@ -445,7 +440,9 @@
       "page": "#FFFFFF",
       "ink": "#0F0F0F",
       "hairline": "#E7E7E7",
-      "bannerBg": "#F2F2F2"
+      "bannerBg": "#F2F2F2",
+      "disabled": true,
+      "_disabled_note": "Nasty Gal is gone (Jake, 28 Sep 2026): greyed out in the selector, not clickable, no template built, not in the satellite row."
     },
     {
       "id": "foreverunique",
