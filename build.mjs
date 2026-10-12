@@ -2,7 +2,7 @@
 // Usage: node build.mjs        Logos: python3 tools/logos.py (once, or when a wordmark changes)
 import fs from 'node:fs';
 const BASE = 'https://jakerayner96.github.io/debenhams-giftcard-email/assets/logos/';
-const { brands } = JSON.parse(fs.readFileSync('brands.json', 'utf8'));
+const { brands, satellites: GROUP = [], satellitesLabel: LABEL } = JSON.parse(fs.readFileSync('brands.json', 'utf8'));
 const src = fs.readFileSync('template/giftcard.src.html', 'utf8');
 const byId = Object.fromEntries(brands.map(b => [b.id, b]));
 const hasSvg = id => fs.existsSync(`assets/logos/svg/${id}.svg`);
@@ -18,18 +18,18 @@ const logoDims = id => {
   return { w, h, cw: Math.round(w * 0.85), ch: Math.round(h * 0.85) };
 };
 
-// "Your gift card can also be used at" — Debenhams only. Mirrors the Figma component (11:202): label copy, order,
-// per-mark sizes and a 36px gap come from brands.json → satellitesLabel / satellites [{id,w,h}].
+// "Your gift card can also be used at" — on every fascia's email, listing every other fascia (the card works on any site).
+// Mirrors the Figma component (11:202): label copy, order, per-mark sizes and a 36px gap come from brands.json → satellitesLabel / satellites [{id,w,h}].
 const satellites = b => {
-  if (!b.satellites || !b.satellites.length) return '';
-  const items = b.satellites.map(s => typeof s === 'string' ? { id: s } : s).filter(s => byId[s.id] && !byId[s.id].disabled && hasSvg(s.id));
+  const items = GROUP.map(s => typeof s === 'string' ? { id: s } : s).filter(s => s.id !== b.id && byId[s.id] && !byId[s.id].disabled && hasSvg(s.id));
+  if (!items.length) return '';
   const imgs = items.map(s => {
     let { w, h } = s;
     if (!w || !h) { const d = logoDims(s.id); h = 14; w = Math.round(d.w * 14 / d.h); if (w > 80) { w = 80; h = Math.round(d.h * 80 / d.w); } }
     return `        <img src="${BASE}${s.id}.png" width="${w}" height="${h}" alt="${byId[s.id].name}" style="display:inline-block;width:${w}px;height:${h}px;margin:12px 18px;vertical-align:middle">`;
   }).join('\n');
-  const label = b.satellitesLabel || 'Also spend it at';
-  return `    <!-- ===== spend across the group — Debenhams satellites (mirrors the Figma component) ===== -->
+  const label = LABEL || 'Your gift card can also be used at';
+  return `    <!-- ===== spend across the group — every other fascia (mirrors the Figma component) ===== -->
     <tr>
       <td class="gutter" align="center" style="padding:40px 32px 0 32px;font-family:${b.font};font-size:12px;line-height:16px;font-weight:${b.light};color:${b.ink}">${label}</td>
     </tr>

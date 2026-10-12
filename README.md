@@ -24,7 +24,7 @@ Redesign of the transactional "You've been sent a gift card!" email (Mailgun, te
 - **Links are `text/link`, SemiBold, no underline.** For Debenhams that's CTA Aqua `#00787D`; Primary Aqua `#7BE7D8` is the button fill only (fails AA as text on white).
 - **PIN notice** is the DS Messaging Banner, neutral: 4px `text/link` rule, `surface/media` panel, 4px radius, mid-weight lead.
 - **Footer** is the three links only. The "Sent on behalf of…" line and the registered-company line were dropped in the Figma pass (28 Sep); check legal is happy before send.
-- **Debenhams satellites.** The Debenhams templates carry an "Also spend it at" row above the footer with every other fascia's wordmark in DS picker order, driven by `satellites` on the Debenhams entry in `brands.json`. Disabled fascias and any without a wordmark SVG are left out of the row. Debenhams Outlet and DSGN Studio marks were exported from the Debenhams Design System Figma file (nodes 13256-1275 and 12800-33027) into `assets/logos/svg/`. No other fascia has the row.
+- **Group row on every email.** Every fascia's template carries "Your gift card can also be used at" above the footer with every other fascia's wordmark (Debenhams first, then the Figma order), because the card can be spent on any of the group's sites (Jake, 12 Oct 2026). Driven by the top-level `satellites` list in `brands.json`; a fascia's own mark is left out of its row. Debenhams Outlet and DSGN Studio marks were exported from the Debenhams Design System Figma file (nodes 13256-1275 and 12800-33027) into `assets/logos/svg/`.
 - Not in scope: dark-mode colour swap (`color-scheme` locked to light), Outlook rounded corners (falls back to square).
 
 ## Merge fields

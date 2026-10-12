@@ -1,5 +1,94 @@
 {
   "_note": "Per-fascia tokens for the gift card email, synced 12 Oct 2026 from the computed values of debenhamsgroup.design/assets/ds/tokens.css (font, regular / mid / strong / button weights, button case, radius, surface/action + hover, text/on-action, text/link). Mid weight is never lighter than regular. Brand list and order = the DS picker (17 fascias; Maine, Gorgeous, Forever Unique and Nasty Gal removed). Page stays white and the card #0F0F0F for every fascia (Paul, 28 Sep 2026). Edit here, then `node build.mjs`.",
+  "satellitesLabel": "Your gift card can also be used at",
+  "satellites": [
+    {
+      "id": "debenhams",
+      "w": 81,
+      "h": 12
+    },
+    {
+      "id": "boohoo",
+      "w": 68,
+      "h": 12
+    },
+    {
+      "id": "boohooman",
+      "w": 105,
+      "h": 11
+    },
+    {
+      "id": "plt",
+      "w": 83,
+      "h": 20
+    },
+    {
+      "id": "karenmillen",
+      "w": 104,
+      "h": 9
+    },
+    {
+      "id": "warehouse",
+      "w": 118,
+      "h": 10
+    },
+    {
+      "id": "debenhamsoutlet",
+      "w": 50,
+      "h": 18
+    },
+    {
+      "id": "brandroom",
+      "w": 120,
+      "h": 9
+    },
+    {
+      "id": "principles",
+      "w": 80,
+      "h": 9
+    },
+    {
+      "id": "coast",
+      "w": 58,
+      "h": 14
+    },
+    {
+      "id": "oasis",
+      "w": 57,
+      "h": 13
+    },
+    {
+      "id": "wallis",
+      "w": 72,
+      "h": 18
+    },
+    {
+      "id": "dorothyperkins",
+      "w": 29,
+      "h": 16
+    },
+    {
+      "id": "burton",
+      "w": 50,
+      "h": 21
+    },
+    {
+      "id": "misspap",
+      "w": 45,
+      "h": 14
+    },
+    {
+      "id": "dsgnstudio",
+      "w": 97,
+      "h": 11
+    },
+    {
+      "id": "trainingdept",
+      "w": 85,
+      "h": 11
+    }
+  ],
+  "_satellites_note": "Every fascia's email carries this row, minus its own mark: the card can be spent on any of the group's sites (Jake, 12 Oct 2026). Order and per-mark sizes mirror Figma node 13-527 / component 11-202 (28 Sep 2026); Debenhams and Training Dept added 12 Oct sized to the same optical height. Row padding 12/24, 36px between marks, 24px between lines.",
   "brands": [
     {
       "id": "debenhams",
@@ -20,86 +109,7 @@
       "page": "#FFFFFF",
       "ink": "#0F0F0F",
       "hairline": "#E7E7E7",
-      "bannerBg": "#F2F2F2",
-      "satellites": [
-        {
-          "id": "boohoo",
-          "w": 68,
-          "h": 12
-        },
-        {
-          "id": "boohooman",
-          "w": 105,
-          "h": 11
-        },
-        {
-          "id": "plt",
-          "w": 83,
-          "h": 20
-        },
-        {
-          "id": "karenmillen",
-          "w": 104,
-          "h": 9
-        },
-        {
-          "id": "warehouse",
-          "w": 118,
-          "h": 10
-        },
-        {
-          "id": "debenhamsoutlet",
-          "w": 50,
-          "h": 18
-        },
-        {
-          "id": "brandroom",
-          "w": 120,
-          "h": 9
-        },
-        {
-          "id": "principles",
-          "w": 80,
-          "h": 9
-        },
-        {
-          "id": "coast",
-          "w": 58,
-          "h": 14
-        },
-        {
-          "id": "oasis",
-          "w": 57,
-          "h": 13
-        },
-        {
-          "id": "wallis",
-          "w": 72,
-          "h": 18
-        },
-        {
-          "id": "dorothyperkins",
-          "w": 29,
-          "h": 16
-        },
-        {
-          "id": "burton",
-          "w": 50,
-          "h": 21
-        },
-        {
-          "id": "misspap",
-          "w": 45,
-          "h": 14
-        },
-        {
-          "id": "dsgnstudio",
-          "w": 97,
-          "h": 11
-        }
-      ],
-      "_satellites_note": "Mirrors Figma node 13-527 / component 11-202 (Jake, 28 Sep 2026): label, order, per-mark sizes; row padding 12/24, 36px between marks, 24px between lines.",
-      "satellitesLabel": "Your gift card can also be used at"
+      "bannerBg": "#F2F2F2"
     },
     {
       "id": "boohoo",
