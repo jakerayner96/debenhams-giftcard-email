@@ -8,9 +8,9 @@
 <meta name="supported-color-schemes" content="light">
 <title>{{#if is_refund}}Your {{amount}} refund is ready to spend{{else}}{{sender_name}} has sent you a gift card{{/if}}</title>
 <!--
-  Debenhams gift card email — v3 (2026-09-28) — generated from template/giftcard.src.html by build.mjs. Edit the source, not this file.
+  Debenhams gift card email — v3 (2026-10-12) — generated from template/giftcard.src.html by build.mjs. Edit the source, not this file.
   Fascia tokens (debenhamsgroup.design/assets/ds/tokens.css, [data-brand="debenhams"]):
-    type           Geologica,Arial,Helvetica,sans-serif · light 300 · mid 500 · strong 600 · button 600 uppercase
+    type           Geologica,Arial,Helvetica,sans-serif · light 300 · mid 400 · strong 600 · button 600 uppercase
     surface/page   #FFFFFF   text/primary #0F0F0F   border/subtle #E7E7E7   surface/media #F2F2F2 (PIN notice)
     surface/action #7BE7D8 (hover #9DEDE2) with #000000 ink — the button, radius 4px
     text/link      #00787D — links and the PIN-notice rule (SemiBold, no underline)
@@ -23,7 +23,7 @@
 <style>table,td{font-family:Arial,Helvetica,sans-serif !important}</style>
 <![endif]-->
 <!--[if !mso]><!-->
-<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;500;600&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;600&display=swap" rel="stylesheet" type="text/css">
 <!--<![endif]-->
 <style>
   html,body{margin:0 !important;padding:0 !important;height:100% !important;width:100% !important}
@@ -85,7 +85,7 @@
         <p style="margin:0 0 20px 0;font-size:14px;line-height:20px;font-weight:300">Hi {{recipient_name}},</p>
         <h1 class="h1" style="margin:0 auto;font-size:36px;line-height:42px;font-weight:600;letter-spacing:-0.015em;max-width:330px">{{sender_name}} has sent you a Gift Card</h1>
         <p style="margin:20px auto 0 auto;font-size:18px;line-height:26px;font-weight:300;font-style:italic;max-width:480px">&ldquo;{{message}}&rdquo;</p>
-        <p style="margin:9px 0 0 0;font-size:16px;line-height:24px;font-weight:500;font-style:italic">{{sender_name}}</p>
+        <p style="margin:9px 0 0 0;font-size:16px;line-height:24px;font-weight:400;font-style:italic">{{sender_name}}</p>
         <p style="margin:28px auto 0 auto;font-size:16px;line-height:24px;font-weight:300;max-width:400px">Here&rsquo;s your gift card. You&rsquo;ll need the card number and PIN to spend it.</p>
       </td>
     </tr>
@@ -197,7 +197,7 @@
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td width="4" bgcolor="#00787D" style="width:4px;background:#00787D;border-radius:4px 0 0 4px;font-size:1px;line-height:1px">&nbsp;</td>
-            <td bgcolor="#F2F2F2" style="background:#F2F2F2;border-radius:0 4px 4px 0;padding:12px 16px 12px 12px;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:14px;line-height:18px;font-weight:300;color:#000000"><span style="font-weight:500">Treat your PIN like cash.</span> We&rsquo;ll never ask for it by phone, text or email, and we can&rsquo;t replace a gift card that&rsquo;s been spent by someone else.</td>
+            <td bgcolor="#F2F2F2" style="background:#F2F2F2;border-radius:0 4px 4px 0;padding:12px 16px 12px 12px;font-family:Geologica,Arial,Helvetica,sans-serif;font-size:14px;line-height:18px;font-weight:300;color:#000000"><span style="font-weight:400">Treat your PIN like cash.</span> We&rsquo;ll never ask for it by phone, text or email, and we can&rsquo;t replace a gift card that&rsquo;s been spent by someone else.</td>
           </tr>
         </table>
       </td>
