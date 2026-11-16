@@ -65,7 +65,7 @@ for (const b of brands) {
   const map = {
     BRAND: b.name, BRAND_ID: b.id, DOMAIN: b.domain, DATE: today,
     FONT: b.font, FONT_LINK: b.gfont ? `<link href="https://fonts.googleapis.com/css2?family=${b.gfont}&display=swap" rel="stylesheet" type="text/css">` : '',
-    W_LIGHT: b.light, W_MID: b.mid, W_STRONG: b.strong, W_BTN: b.btn, CTA_CASE: b.ctaCase, RADIUS: b.radius + 'px',
+    W_LIGHT: b.light, W_MID: b.mid, W_STRONG: b.strong, W_BTN: b.btn, CTA_CASE: b.ctaCase, RADIUS: b.radius + 'px', BAN_L: b.id === 'plt' ? '0' : '4px 0 0 4px', BAN_R: b.id === 'plt' ? '0' : '0 4px 4px 0', // PIN banner square on PLT (Jake 16 Nov)
     ACTION: b.action, ACTION_HOVER: b.actionHover, ON_ACTION: b.onAction, LINK: b.link, PAGE: b.page, INK: b.ink,
     HAIRLINE: b.hairline, BANNER_BG: b.bannerBg, CARD: '#0F0F0F', CARD_INK: '#FFFFFF',
     GREY: b.id === 'plt' ? '#6B6B6B' : '#767676', // #767676 is 4.47:1 on PLT's #FFFDF7, so PLT's caption is Grey 5
