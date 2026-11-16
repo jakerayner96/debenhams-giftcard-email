@@ -69,6 +69,14 @@
     </div>
 
     <div>
+      <p class="eyebrow">Mode</p>
+      <div class="chips" id="mode">
+        <button class="chip on" data-m="light">Light</button>
+        <button class="chip" data-m="dark">Dark</button>
+      </div>
+    </div>
+
+    <div>
       <p class="eyebrow">Device</p>
       <div class="chips" id="device">
         <button class="chip" data-d="m">Mobile 375</button>
@@ -111,7 +119,7 @@
 
 <script>
 (function(){
-  const state={brand:'debenhams',scenario:'gift',device:'d'};
+  const state={brand:'debenhams',scenario:'gift',device:'d',mode:'light'};
   const tpls={}; let brands=[];
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
   const frame=$('#frame'), dev=$('#device-frame'), status=$('#status'), title=$('#title');
@@ -130,7 +138,9 @@
     let out=t,n=0; while(re.test(out)&&n++<20){re.lastIndex=0;out=out.replace(re,(m,k,a,b)=>d[k]?a:(b||''));}
     return out.replace(/\{\{(\w+)\}\}/g,(m,k)=>d[k]==null?'':String(d[k]));
   }
-  function html(){ return render(tpls[state.brand],data()).split('https://jakerayner96.github.io/debenhams-giftcard-email/').join(base); }
+  function html(){ const out=render(tpls[state.brand],data()).split('https://jakerayner96.github.io/debenhams-giftcard-email/').join(base);
+    // the iframe follows the viewer's OS: Light switches the template's dark rules off, Dark runs them unconditionally
+    return out.split('@media (prefers-color-scheme:dark)').join(state.mode==='dark'?'@media all':'@media not all'); }
   function tokens(){
     const b=brand();
     const rows=[['surface/action · button',b.action],['text/on-action',b.onAction],['text/link · links, PIN rule',b.link],['card · all fascias','#0F0F0F'],['surface/page',b.page],['text/primary',b.ink],['border/subtle',b.hairline],['surface/media · PIN notice',b.bannerBg]];
@@ -141,25 +151,27 @@
     const b=brand();
     $$('[data-only]').forEach(el=>el.style.display=el.dataset.only===state.scenario?'':'none');
     dev.className='device '+state.device;
-    title.textContent=`${b.name} · ${state.scenario==='refund'?'Refund':'Gift'} · ${({m:'375px',d:'600px',w:'760px'})[state.device]}`;
+    title.textContent=`${b.name} · ${state.scenario==='refund'?'Refund':'Gift'} · ${state.mode==='dark'?'Dark · ':''}${({m:'375px',d:'600px',w:'760px'})[state.device]}`;
     $('#open').href=`template/${b.id}.html`;
     $$('.brand-tab').forEach(t=>t.setAttribute('aria-selected',String(t.dataset.b===state.brand)));
     tokens();
     if(!tpls[state.brand]){status.textContent='loading template…';fetch(`template/${b.id}.html`).then(r=>r.text()).then(t=>{tpls[b.id]=t;paint();}).catch(()=>{status.textContent='Serve over HTTP (python3 -m http.server 3000) — fetch of the template failed on file://';});return;}
     frame.srcdoc=html();status.textContent=`Rendered from template/${b.id}.html with the merge fields on the left`;
-    try{history.replaceState(null,'',`?brand=${b.id}&scenario=${state.scenario}`);}catch(e){}
+    try{history.replaceState(null,'',`?brand=${b.id}&scenario=${state.scenario}&mode=${state.mode}`);}catch(e){}
   }
   function fit(){try{const h=frame.contentDocument&&frame.contentDocument.documentElement.scrollHeight;if(h)frame.style.height=Math.max(900,h+2)+'px';}catch(e){}}
   frame.addEventListener('load',()=>{fit();setTimeout(fit,400);setTimeout(fit,1200);});
   $('#brands').addEventListener('click',e=>{const b=e.target.closest('.brand-tab');if(!b||b.disabled)return;state.brand=b.dataset.b;paint();});
   $('#scenario').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;state.scenario=b.dataset.s;$$('#scenario .chip').forEach(c=>c.classList.toggle('on',c===b));paint();});
+  $('#mode').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;state.mode=b.dataset.m;$$('#mode .chip').forEach(c=>c.classList.toggle('on',c===b));paint();});
   $('#device').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;state.device=b.dataset.d;$$('#device .chip').forEach(c=>c.classList.toggle('on',c===b));paint();});
   $$('[data-k]').forEach(el=>el.addEventListener('input',paint));
   $('#copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(render(tpls[state.brand],data()));status.textContent='Rendered HTML copied (absolute Pages image URLs)';}catch(e){status.textContent='Copy blocked — open the template and copy from source';}});
   fetch('brands.json').then(r=>r.json()).then(j=>{
     brands=j.brands;
     $('#brands').innerHTML=brands.map(b=>`<button class="brand-tab" role="tab" data-b="${b.id}" aria-selected="false"${b.disabled?' disabled aria-disabled="true" title="Not in scope yet"':''}>${b.name}</button>`).join('');
-    const q=new URLSearchParams(location.search); if(brands.some(b=>b.id===q.get('brand')&&!b.disabled))state.brand=q.get('brand'); if(['gift','refund'].includes(q.get('scenario'))){state.scenario=q.get('scenario');$$('#scenario .chip').forEach(c=>c.classList.toggle('on',c.dataset.s===state.scenario));}
+    const q=new URLSearchParams(location.search); if(brands.some(b=>b.id===q.get('brand')&&!b.disabled))state.brand=q.get('brand'); if(q.get('mode')==='dark'){state.mode='dark';$$('#mode .chip').forEach(c=>c.classList.toggle('on',c.dataset.m==='dark'));}
+    if(['gift','refund'].includes(q.get('scenario'))){state.scenario=q.get('scenario');$$('#scenario .chip').forEach(c=>c.classList.toggle('on',c.dataset.s===state.scenario));}
     paint();
   }).catch(()=>{status.textContent='Serve over HTTP (python3 -m http.server 3000) — brands.json failed to load on file://';});
 })();

@@ -4,17 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="x-apple-disable-message-reformatting">
-<meta name="color-scheme" content="light">
-<meta name="supported-color-schemes" content="light">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
 <title>{{#if is_refund}}Your {{amount}} refund is ready to spend{{else}}{{sender_name}} has sent you a gift card{{/if}}</title>
 <!--
-  [[BRAND]] gift card email — v3 ([[DATE]]) — generated from template/giftcard.src.html by build.mjs. Edit the source, not this file.
+  [[BRAND]] gift card email — v4 ([[DATE]]) — generated from template/giftcard.src.html by build.mjs. Edit the source, not this file.
+  Master design: Figma "Emails - 2026" XbDt0A59FmPQN3pj7RevaG, page Gift Card (light + dark rows per fascia).
   Fascia tokens (debenhamsgroup.design/assets/ds/tokens.css, [data-brand="[[BRAND_ID]]"]):
     type           [[FONT]] · light [[W_LIGHT]] · mid [[W_MID]] · strong [[W_STRONG]] · button [[W_BTN]] [[CTA_CASE]]
     surface/page   [[PAGE]]   text/primary [[INK]]   border/subtle [[HAIRLINE]]   surface/media [[BANNER_BG]] (PIN notice)
     surface/action [[ACTION]] (hover [[ACTION_HOVER]]) with [[ON_ACTION]] ink — the button, radius [[RADIUS]]
-    text/link      [[LINK]] — links and the PIN-notice rule (SemiBold, no underline)
+    text/link      [[LINK]] — links (underlined) and the PIN-notice rule
     card           [[CARD]] flat, [[CARD_INK]] ink, 400×252, 10px — the same for every fascia; no gradients, no shadows
+    text/secondary [[GREY]] — legal caption only
+  Dark mode (prefers-color-scheme + Outlook.com [data-ogsc]/[data-ogsb]): page #0F0F0F, ink #FFFFFF, dividers #323232 (Grey 6),
+    PIN notice + card #242424 (card border #323232), links [[D_LINK]], button [[D_ACTION]] / [[D_ON_ACTION]], legal #B5B5B5;
+    wordmarks swap to their white PNGs.
+  Accessibility: every text ≥14px except the 12px legal caption; links underlined, the button never; AA contrast in both modes.
   Merge fields (Mailgun handlebars): recipient_name, amount, card_number, pin, expiry_date, is_refund, order_ref,
     sender_name, message, shop_url, balance_url, terms_url, privacy_url
 -->
@@ -26,11 +32,13 @@
 [[FONT_LINK]]
 <!--<![endif]-->
 <style>
+  :root{color-scheme:light dark;supported-color-schemes:light dark}
   html,body{margin:0 !important;padding:0 !important;height:100% !important;width:100% !important}
   *{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
   table,td{mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;border-collapse:collapse !important}
   img{-ms-interpolation-mode:bicubic;border:0;outline:none;text-decoration:none}
-  a{text-decoration:none}
+  a{text-decoration:underline}
+  a.cta{text-decoration:none !important}
   a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !important;font-size:inherit !important;font-family:inherit !important;font-weight:inherit !important;line-height:inherit !important}
   .btn a:hover{background:[[ACTION_HOVER]] !important}
   @media screen and (max-width:599px){
@@ -45,9 +53,33 @@
     .amount{font-size:52px !important;line-height:56px !important}
     .col{padding:0 0 24px 0 !important}
   }
+  /* ===== dark mode — Apple Mail, iOS Mail, Outlook for Mac/iOS/Android, Samsung ===== */
+  @media (prefers-color-scheme:dark){
+    .d-page{background:#0F0F0F !important;background-color:#0F0F0F !important}
+    .d-ink{color:#FFFFFF !important}
+    .d-hair{border-color:#323232 !important}
+    .d-rule{background:#323232 !important;background-color:#323232 !important}
+    .d-tile{background:#242424 !important;background-color:#242424 !important}
+    .d-card{background:#242424 !important;background-color:#242424 !important;border:1px solid #323232 !important}
+    .d-btn,.d-btn a{background:[[D_ACTION]] !important;background-color:[[D_ACTION]] !important;color:[[D_ON_ACTION]] !important}
+    .d-link{color:[[D_LINK]] !important}
+    .d-bar{background:[[D_LINK]] !important;background-color:[[D_LINK]] !important}
+    .d-grey{color:#B5B5B5 !important}
+    .lm{display:none !important;max-height:0 !important;overflow:hidden !important}
+    .dm{display:block !important;max-height:none !important;overflow:visible !important}
+    .dm-i{display:inline-block !important;max-height:none !important;overflow:visible !important;width:auto !important}
+  }
+  /* ===== dark mode — Outlook.com / Outlook apps that rewrite colours ===== */
+  [data-ogsb] .d-page{background:#0F0F0F !important;background-color:#0F0F0F !important}
+  [data-ogsc] .d-ink{color:#FFFFFF !important}
+  [data-ogsc] .d-link{color:[[D_LINK]] !important}
+  [data-ogsc] .d-grey{color:#B5B5B5 !important}
+  [data-ogsb] .d-tile,[data-ogsb] .d-card{background:#242424 !important;background-color:#242424 !important}
+  [data-ogsb] .d-btn,[data-ogsb] .d-btn a{background:[[D_ACTION]] !important;background-color:[[D_ACTION]] !important}
+  [data-ogsc] .d-btn a{color:[[D_ON_ACTION]] !important}
 </style>
 </head>
-<body style="margin:0;padding:0;background:[[PAGE]];word-break:break-word">
+<body class="d-page" style="margin:0;padding:0;background:[[PAGE]];word-break:break-word">
 
 <!-- preheader -->
 <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all">
@@ -55,7 +87,7 @@
   &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
 </div>
 
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="[[PAGE]]" style="background:[[PAGE]]">
+<table role="presentation" class="d-page" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="[[PAGE]]" style="background:[[PAGE]]">
 <tr><td align="center" style="padding:0">
 
   <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" align="center"><tr><td><![endif]-->
@@ -64,7 +96,7 @@
     <!-- ===== header ===== -->
     <tr>
       <td class="gutter" align="center" style="padding:36px 32px 0 32px">
-        <a href="{{shop_url}}" style="display:inline-block">
+        <a href="{{shop_url}}" class="cta" style="display:inline-block">
           [[HEADER_LOGO]]
         </a>
       </td>
@@ -73,15 +105,15 @@
     <!-- ===== hero copy ===== -->
     {{#if is_refund}}
     <tr>
-      <td class="gutter" align="center" style="padding:48px 32px 0 32px;font-family:[[FONT]];color:[[INK]]">
-        <p style="margin:0 0 14px 0;font-size:14px;line-height:20px;font-weight:[[W_LIGHT]]">Hi {{recipient_name}},</p>
+      <td class="gutter d-ink" align="center" style="padding:48px 32px 0 32px;font-family:[[FONT]];color:[[INK]]">
+        <p style="margin:0 0 20px 0;font-size:14px;line-height:20px;font-weight:[[W_LIGHT]]">Hi {{recipient_name}},</p>
         <h1 class="h1" style="margin:0;font-size:36px;line-height:42px;font-weight:[[W_STRONG]];letter-spacing:-0.015em">Your Gift Card</h1>
-        <p style="margin:16px auto 0 auto;font-size:16px;line-height:24px;font-weight:[[W_LIGHT]];max-width:400px">Order {{order_ref}} has been refunded onto a [[BRAND]] gift card. You&rsquo;ll need the card number and PIN to spend it.</p>
+        <p style="margin:20px auto 0 auto;font-size:16px;line-height:24px;font-weight:[[W_LIGHT]];max-width:400px">Order {{order_ref}} has been refunded onto a [[BRAND]] gift card. You&rsquo;ll need the card number and PIN to spend it.</p>
       </td>
     </tr>
     {{else}}
     <tr>
-      <td class="gutter" align="center" style="padding:48px 32px 0 32px;font-family:[[FONT]];color:[[INK]]">
+      <td class="gutter d-ink" align="center" style="padding:48px 32px 0 32px;font-family:[[FONT]];color:[[INK]]">
         <p style="margin:0 0 20px 0;font-size:14px;line-height:20px;font-weight:[[W_LIGHT]]">Hi {{recipient_name}},</p>
         <h1 class="h1" style="margin:0 auto;font-size:36px;line-height:42px;font-weight:[[W_STRONG]];letter-spacing:-0.015em;max-width:330px">{{sender_name}} has sent you a Gift Card</h1>
         <p style="margin:20px auto 0 auto;font-size:18px;line-height:26px;font-weight:[[W_LIGHT]];font-style:italic;max-width:480px">&ldquo;{{message}}&rdquo;</p>
@@ -91,10 +123,10 @@
     </tr>
     {{/if}}
 
-    <!-- ===== the card — flat [[CARD]] for every fascia, no gradient or shadow ===== -->
+    <!-- ===== the card — flat [[CARD]] for every fascia (dark: #242424 with a Grey 6 border) ===== -->
     <tr>
       <td class="gutter" align="center" style="padding:40px 32px 0 32px">
-        <table role="presentation" class="w400" width="400" cellpadding="0" cellspacing="0" border="0" bgcolor="[[CARD]]" style="width:400px;max-width:400px;border-radius:10px;background-color:[[CARD]]">
+        <table role="presentation" class="w400 d-card" width="400" cellpadding="0" cellspacing="0" border="0" bgcolor="[[CARD]]" style="width:400px;max-width:400px;border-radius:10px;background-color:[[CARD]]">
           <tr>
             <td class="card-pad" style="padding:26px 28px 0 28px">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -102,20 +134,20 @@
                   <td align="left" valign="middle" style="padding:0">
                     [[CARD_LOGO]]
                   </td>
-                  <td align="right" valign="middle" style="padding:0 0 0 12px;font-family:[[FONT]];font-size:11px;line-height:16px;font-weight:[[W_STRONG]];letter-spacing:0.16em;color:[[CARD_INK]];text-transform:uppercase;white-space:nowrap">Gift card</td>
+                  <td align="right" valign="middle" style="padding:0 0 0 12px;font-family:[[FONT]];font-size:14px;line-height:20px;font-weight:[[W_STRONG]];letter-spacing:0.12em;color:[[CARD_INK]];text-transform:uppercase;white-space:nowrap">Gift card</td>
                 </tr>
               </table>
             </td>
           </tr>
-          <tr><td class="card-space" style="height:52px;line-height:52px;font-size:1px">&nbsp;</td></tr>
+          <tr><td class="card-space" style="height:48px;line-height:48px;font-size:1px">&nbsp;</td></tr>
           <tr>
             <td align="center" style="padding:0 28px;font-family:[[FONT]];color:[[CARD_INK]]">
               <div class="amount" style="font-size:60px;line-height:64px;font-weight:[[W_STRONG]];letter-spacing:-0.03em;color:[[CARD_INK]]">{{amount}}</div>
             </td>
           </tr>
-          <tr><td class="card-space" style="height:52px;line-height:52px;font-size:1px">&nbsp;</td></tr>
+          <tr><td class="card-space" style="height:48px;line-height:48px;font-size:1px">&nbsp;</td></tr>
           <tr>
-            <td class="card-foot" align="center" style="padding:0 28px 24px 28px;font-family:[[FONT]];font-size:12px;line-height:16px;font-weight:[[W_LIGHT]];color:[[CARD_INK]]">Valid until <span style="font-weight:[[W_STRONG]]">{{expiry_date}}</span></td>
+            <td class="card-foot" align="center" style="padding:0 28px 24px 28px;font-family:[[FONT]];font-size:14px;line-height:20px;font-weight:[[W_LIGHT]];color:[[CARD_INK]]">Valid until <span style="font-weight:[[W_STRONG]]">{{expiry_date}}</span></td>
           </tr>
         </table>
       </td>
@@ -123,66 +155,66 @@
 
     <!-- ===== number + PIN ===== -->
     <tr>
-      <td class="gutter" align="center" style="padding:32px 32px 0 32px;font-family:[[FONT]];color:[[INK]]">
-        <p style="margin:0 0 6px 0;font-size:13px;line-height:18px;font-weight:[[W_LIGHT]]">Gift card number</p>
+      <td class="gutter d-ink" align="center" style="padding:32px 32px 0 32px;font-family:[[FONT]];color:[[INK]]">
+        <p style="margin:0 0 6px 0;font-size:14px;line-height:20px;font-weight:[[W_LIGHT]]">Gift card number</p>
         <p style="margin:0;font-size:22px;line-height:28px;font-weight:[[W_STRONG]];letter-spacing:0.04em">{{card_number}}</p>
-        <p style="margin:20px 0 6px 0;font-size:13px;line-height:18px;font-weight:[[W_LIGHT]]">PIN</p>
+        <p style="margin:20px 0 6px 0;font-size:14px;line-height:20px;font-weight:[[W_LIGHT]]">PIN</p>
         <p style="margin:0;font-size:22px;line-height:28px;font-weight:[[W_STRONG]];letter-spacing:0.04em">{{pin}}</p>
       </td>
     </tr>
 
-    <!-- ===== CTA — surface/action, the fascia's primary button ===== -->
+    <!-- ===== CTA — surface/action, the fascia's primary button (never underlined) ===== -->
     <tr>
       <td class="gutter" align="center" style="padding:32px 32px 0 32px">
         <table role="presentation" class="w400" width="400" cellpadding="0" cellspacing="0" border="0" style="width:400px;max-width:400px">
           <tr>
-            <td class="btn" align="center" bgcolor="[[ACTION]]" style="border-radius:[[RADIUS]];background:[[ACTION]]">
-              <a href="{{shop_url}}" style="display:block;padding:13px 24px;font-family:[[FONT]];font-size:16px;line-height:24px;font-weight:[[W_BTN]];letter-spacing:0.02em;text-transform:[[CTA_CASE]];color:[[ON_ACTION]];border-radius:[[RADIUS]];background:[[ACTION]]">Shop now</a>
+            <td class="btn d-btn" align="center" bgcolor="[[ACTION]]" style="border-radius:[[RADIUS]];background:[[ACTION]]">
+              <a href="{{shop_url}}" class="cta" style="display:block;padding:13px 24px;font-family:[[FONT]];font-size:16px;line-height:24px;font-weight:[[W_BTN]];letter-spacing:0.02em;text-transform:[[CTA_CASE]];text-decoration:none;color:[[ON_ACTION]];border-radius:[[RADIUS]];background:[[ACTION]]">Shop now</a>
             </td>
           </tr>
         </table>
       </td>
     </tr>
     <tr>
-      <td class="gutter" align="center" style="padding:20px 32px 0 32px;font-family:[[FONT]];font-size:14px;line-height:20px;font-weight:[[W_STRONG]]">
-        <a href="{{balance_url}}" style="color:[[LINK]];text-decoration:none">Check your balance</a>
+      <td class="gutter" align="center" style="padding:20px 32px 0 32px;font-family:[[FONT]];font-size:14px;line-height:24px;font-weight:[[W_STRONG]]">
+        <a href="{{balance_url}}" class="d-link" style="color:[[LINK]];text-decoration:underline">Check your balance</a>
       </td>
     </tr>
 
     {{#if is_refund}}
     <!-- ===== refund facts ===== -->
     <tr>
-      <td class="gutter" align="center" style="padding:48px 32px 0 32px;font-family:[[FONT]];color:[[INK]]">
+      <td class="gutter d-ink" align="center" style="padding:48px 32px 0 32px;font-family:[[FONT]];color:[[INK]]">
         <table role="presentation" class="w400" width="400" cellpadding="0" cellspacing="0" border="0" style="width:400px;max-width:400px">
           <tr>
-            <td style="padding:0 0 12px 0;border-bottom:1px solid [[HAIRLINE]];font-size:14px;line-height:20px;font-weight:[[W_LIGHT]]">Order</td>
-            <td align="right" style="padding:0 0 12px 0;border-bottom:1px solid [[HAIRLINE]];font-size:14px;line-height:20px;font-weight:[[W_STRONG]]">{{order_ref}}</td>
+            <td class="d-ink d-hair" style="padding:0 0 12px 0;border-bottom:1px solid [[HAIRLINE]];font-size:14px;line-height:20px;font-weight:[[W_LIGHT]];color:[[INK]]">Order</td>
+            <td class="d-ink d-hair" align="right" style="padding:0 0 12px 0;border-bottom:1px solid [[HAIRLINE]];font-size:14px;line-height:20px;font-weight:[[W_STRONG]];color:[[INK]]">{{order_ref}}</td>
           </tr>
           <tr>
-            <td style="padding:12px 0;border-bottom:1px solid [[HAIRLINE]];font-size:14px;line-height:20px;font-weight:[[W_LIGHT]]">Refunded to</td>
-            <td align="right" style="padding:12px 0;border-bottom:1px solid [[HAIRLINE]];font-size:14px;line-height:20px;font-weight:[[W_STRONG]]">Gift card</td>
+            <td class="d-ink d-hair" style="padding:12px 0;border-bottom:1px solid [[HAIRLINE]];font-size:14px;line-height:20px;font-weight:[[W_LIGHT]];color:[[INK]]">Refunded to</td>
+            <td class="d-ink d-hair" align="right" style="padding:12px 0;border-bottom:1px solid [[HAIRLINE]];font-size:14px;line-height:20px;font-weight:[[W_STRONG]];color:[[INK]]">Gift card</td>
           </tr>
           <tr>
-            <td style="padding:12px 0 0 0;font-size:14px;line-height:20px;font-weight:[[W_LIGHT]]">Valid for</td>
-            <td align="right" style="padding:12px 0 0 0;font-size:14px;line-height:20px;font-weight:[[W_STRONG]]">90 days</td>
+            <td class="d-ink" style="padding:12px 0 0 0;font-size:14px;line-height:20px;font-weight:[[W_LIGHT]];color:[[INK]]">Valid for</td>
+            <td class="d-ink" align="right" style="padding:12px 0 0 0;font-size:14px;line-height:20px;font-weight:[[W_STRONG]];color:[[INK]]">90 days</td>
           </tr>
         </table>
-        <p style="margin:20px auto 0 auto;font-size:13px;line-height:19px;font-weight:[[W_LIGHT]];max-width:400px">This refund method applies to all eligible returns from this order. More in our <a href="{{shop_url}}help/returns" style="color:[[LINK]];text-decoration:none;font-weight:[[W_STRONG]]">returns FAQs</a>.</p>
+        <p style="margin:20px auto 0 auto;font-size:14px;line-height:20px;font-weight:[[W_LIGHT]];max-width:400px">This refund method applies to all eligible returns from this order. More in our <a href="{{shop_url}}help/returns" class="d-link" style="color:[[LINK]];text-decoration:underline;font-weight:[[W_STRONG]]">returns FAQs</a>.</p>
       </td>
     </tr>
     {{/if}}
 
     <!-- ===== how to spend it ===== -->
-    <tr><td class="gutter" style="padding:48px 32px 0 32px"><div style="height:1px;line-height:1px;font-size:1px;background:[[HAIRLINE]]">&nbsp;</div></td></tr>
+    <tr><td class="gutter" style="padding:48px 32px 0 32px"><div class="d-rule" style="height:1px;line-height:1px;font-size:1px;background:[[HAIRLINE]]">&nbsp;</div></td></tr>
     <tr>
-      <td class="gutter" style="padding:32px 32px 0 32px;font-family:[[FONT]];color:[[INK]]">
+      <td class="gutter d-ink" style="padding:32px 32px 0 32px;font-family:[[FONT]];color:[[INK]]">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
-            <td class="stack col" width="50%" valign="top" style="padding:0 20px 0 0">
+            <td class="stack col d-ink" width="50%" valign="top" style="padding:0 20px 0 0;color:[[INK]]">
               <p style="margin:0 0 6px 0;font-size:16px;line-height:24px;font-weight:[[W_STRONG]]">Online</p>
               <p style="margin:0;font-size:14px;line-height:20px;font-weight:[[W_LIGHT]]">At checkout on [[DOMAIN]], choose <span style="font-weight:[[W_STRONG]]">Gift card</span> and enter your card number and PIN.</p>
             </td>
-            <td class="stack col" width="50%" valign="top" style="padding:0 0 0 20px">
+            <td class="stack col d-ink" width="50%" valign="top" style="padding:0 0 0 20px;color:[[INK]]">
               <p style="margin:0 0 6px 0;font-size:16px;line-height:24px;font-weight:[[W_STRONG]]">In the app</p>
               <p style="margin:0;font-size:14px;line-height:20px;font-weight:[[W_LIGHT]]">Add it at checkout using your card number and PIN. You can use your gift card on multiple orders.</p>
             </td>
@@ -191,23 +223,27 @@
       </td>
     </tr>
 
-    <!-- ===== PIN notice — DS Messaging Banner, neutral ===== -->
+    <!-- ===== PIN notice — DS Messaging Banner, neutral (dark: #242424 body, link-colour bar) ===== -->
     <tr>
       <td class="gutter" style="padding:32px 32px 0 32px">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
-            <td width="4" bgcolor="[[LINK]]" style="width:4px;background:[[LINK]];border-radius:4px 0 0 4px;font-size:1px;line-height:1px">&nbsp;</td>
-            <td bgcolor="[[BANNER_BG]]" style="background:[[BANNER_BG]];border-radius:0 4px 4px 0;padding:12px 16px 12px 12px;font-family:[[FONT]];font-size:14px;line-height:18px;font-weight:[[W_LIGHT]];color:#000000"><span style="font-weight:[[W_MID]]">Treat your PIN like cash.</span> We&rsquo;ll never ask for it by phone, text or email, and we can&rsquo;t replace a gift card that&rsquo;s been spent by someone else.</td>
+            <td class="d-bar" width="4" bgcolor="[[LINK]]" style="width:4px;background:[[LINK]];border-radius:4px 0 0 4px;font-size:1px;line-height:1px">&nbsp;</td>
+            <td class="d-tile d-ink" bgcolor="[[BANNER_BG]]" style="background:[[BANNER_BG]];border-radius:0 4px 4px 0;padding:12px 16px 12px 12px;font-family:[[FONT]];font-size:14px;line-height:18px;font-weight:[[W_LIGHT]];color:#000000"><span style="font-weight:[[W_MID]]">Treat your PIN like cash.</span> We&rsquo;ll never ask for it by phone, text or email, and we can&rsquo;t replace a gift card that&rsquo;s been spent by someone else.</td>
           </tr>
         </table>
       </td>
     </tr>
 
-[[SATELLITES]]    <!-- ===== footer ===== -->
+[[SATELLITES]]    <!-- ===== footer — links, then the DS Email / Legal block: Grey 6 line, 16px, 12px legal caption ===== -->
     <tr>
-      <td class="gutter" align="center" style="padding:44px 32px 44px 32px;font-family:[[FONT]];font-size:12px;line-height:18px;font-weight:[[W_STRONG]];color:[[INK]]">
-        <a href="{{terms_url}}" style="color:[[LINK]];text-decoration:none">Gift card terms &amp; conditions</a>&nbsp;&nbsp;<span style="font-weight:[[W_LIGHT]]">·</span>&nbsp;&nbsp;<a href="{{privacy_url}}" style="color:[[LINK]];text-decoration:none">Privacy policy</a>&nbsp;&nbsp;<span style="font-weight:[[W_LIGHT]]">·</span>&nbsp;&nbsp;<a href="mailto:customerservices@[[DOMAIN]]" style="color:[[LINK]];text-decoration:none">Help</a>
+      <td class="gutter" align="center" style="padding:44px 32px 0 32px;font-family:[[FONT]];font-size:14px;line-height:24px;font-weight:[[W_STRONG]];color:[[INK]]">
+        <a href="{{terms_url}}" class="d-link" style="color:[[LINK]];text-decoration:underline">Gift card terms &amp; conditions</a>&nbsp;&nbsp;<span class="d-ink" style="font-weight:[[W_LIGHT]];color:[[INK]]">·</span>&nbsp;&nbsp;<a href="{{privacy_url}}" class="d-link" style="color:[[LINK]];text-decoration:underline">Privacy policy</a>&nbsp;&nbsp;<span class="d-ink" style="font-weight:[[W_LIGHT]];color:[[INK]]">·</span>&nbsp;&nbsp;<a href="mailto:customerservices@[[DOMAIN]]" class="d-link" style="color:[[LINK]];text-decoration:underline">Help</a>
       </td>
+    </tr>
+    <tr><td class="gutter" style="padding:16px 32px 0 32px"><div class="d-rule" style="height:1px;line-height:1px;font-size:1px;background:[[HAIRLINE]]">&nbsp;</div></td></tr>
+    <tr>
+      <td class="gutter d-grey" align="left" style="padding:16px 32px 44px 32px;font-family:[[FONT]];font-size:12px;line-height:18px;font-weight:[[W_LIGHT]];color:[[GREY]]">This is a service email about your [[BRAND]] gift card. [[BRAND]] is a trading name of [Registered company name], registered in [England and Wales], company number [00000000]. Registered office: [Registered office address].</td>
     </tr>
 
   </table>
